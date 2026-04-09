@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 import { callClaude } from '../api'
 
 const MOODS = [
-  { score: 1, emoji: '😔', label: 'Struggling', color: '#c9b8e8' },
-  { score: 2, emoji: '😟', label: 'Low', color: '#f5c6d0' },
-  { score: 3, emoji: '😌', label: 'Okay', color: '#ffe0b2' },
-  { score: 4, emoji: '🙂', label: 'Good', color: '#b2c9b2' },
-  { score: 5, emoji: '😊', label: 'Great', color: '#81c784' },
+  { score: 1, emoji: '😔', label: 'Struggling', color: '#D4770A' },
+  { score: 2, emoji: '😟', label: 'Low', color: '#E8A020' },
+  { score: 3, emoji: '😌', label: 'Okay', color: '#C0A060' },
+  { score: 4, emoji: '🙂', label: 'Good', color: '#7A9E7A' },
+  { score: 5, emoji: '😊', label: 'Great', color: '#4E8B4E' },
 ]
 
 const todayKey = () => new Date().toISOString().split('T')[0]
@@ -23,7 +23,7 @@ export default function MoodTracker() {
   const [aiResponse, setAiResponse] = useState('')
   const [aiLoading, setAiLoading] = useState(false)
   const [saved, setSaved] = useState(false)
-  const [view, setView] = useState('checkin') // checkin | graph
+  const [view, setView] = useState('checkin')
 
   const todayEntry = moods.find(m => m.date === todayKey())
 
@@ -33,34 +33,28 @@ export default function MoodTracker() {
     const mood = MOODS.find(m => m.score === selected)
     let response = ''
     try {
-      response = await callClaude(
-        `The person is feeling ${mood.label} today (score ${mood.score}/5). ${note ? `They also wrote: "${note}"` : ''} Please respond with a warm, validating, and kind message in 2-3 sentences.`
-      )
+      response = await callClaude(`The person is feeling ${mood.label} today (score ${mood.score}/5). ${note ? `They also wrote: "${note}"` : ''} Please respond with a warm, validating, and kind message in 2-3 sentences.`)
     } catch {
-      response = 'Your feelings are valid, whatever they may be. Thank you for checking in with yourself today. 💜'
+      response = 'Your feelings are valid, whatever they may be. Thank you for checking in with yourself today.'
     }
     setAiResponse(response)
     setAiLoading(false)
-
     const entry = { date: todayKey(), score: selected, label: mood.label, emoji: mood.emoji, note, response }
-    const filtered = moods.filter(m => m.date !== todayKey())
-    const updated = [entry, ...filtered].sort((a, b) => b.date.localeCompare(a.date))
+    const updated = [entry, ...moods.filter(m => m.date !== todayKey())].sort((a, b) => b.date.localeCompare(a.date))
     setMoods(updated)
     localStorage.setItem('mood_entries', JSON.stringify(updated))
     setSaved(true)
   }
 
-  const chartData = [...moods].reverse().slice(-7).map(m => ({
-    date: shortDate(m.date), score: m.score, emoji: m.emoji
-  }))
+  const chartData = [...moods].reverse().slice(-7).map(m => ({ date: shortDate(m.date), score: m.score, emoji: m.emoji }))
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload?.[0]) {
       const d = payload[0].payload
       return (
-        <div style={{ background: 'white', borderRadius: 12, padding: '8px 14px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
+        <div style={{ background: '#fff', borderRadius: 10, padding: '8px 14px', boxShadow: '0 4px 16px rgba(180,120,60,0.12)', border: '1px solid #F0E6D0' }}>
           <div style={{ fontSize: '1.2rem' }}>{d.emoji}</div>
-          <div style={{ fontSize: '0.8rem', color: '#7a6e8a' }}>{d.date}</div>
+          <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#7A6A5A' }}>{d.date}</div>
         </div>
       )
     }
@@ -68,20 +62,17 @@ export default function MoodTracker() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'linear-gradient(160deg, #d4e8d4, #f5f0ff)' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <button onClick={() => navigate('/')} style={{
-          background: 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 12,
-          padding: '8px 16px', cursor: 'pointer', color: '#7a6e8a',
-          fontFamily: 'Nunito, sans-serif', fontWeight: 600, fontSize: '0.9rem'
-        }}>← Home</button>
+        <button onClick={() => navigate('/')} className="back-btn">← Home</button>
         <div style={{ display: 'flex', gap: 8 }}>
           {['checkin', 'graph'].map(v => (
             <button key={v} onClick={() => setView(v)} style={{
-              padding: '6px 14px', borderRadius: 50, border: 'none', cursor: 'pointer',
-              fontFamily: 'Nunito, sans-serif', fontWeight: 600, fontSize: '0.8rem',
-              background: view === v ? 'rgba(178,201,178,0.8)' : 'rgba(255,255,255,0.6)',
-              color: view === v ? 'white' : '#7a6e8a'
+              padding: '6px 14px', borderRadius: 50, border: '1px solid #F0E6D0', cursor: 'pointer',
+              fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '0.8rem',
+              background: view === v ? '#C0392B' : '#fff',
+              color: view === v ? '#fff' : '#7A6A5A',
+              transition: 'all 0.2s ease',
             }}>{v === 'checkin' ? 'Check In' : '📊 History'}</button>
           ))}
         </div>
@@ -91,68 +82,43 @@ export default function MoodTracker() {
         <AnimatePresence mode="wait">
           {view === 'checkin' && (
             <motion.div key="checkin" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <div className="page-header">
-                <h1>🌤️ How are you feeling?</h1>
-                <p>There's no wrong answer here</p>
-              </div>
+              <div className="page-header"><h1>🌤️ How are you feeling?</h1><p>There's no wrong answer here</p></div>
 
-              {todayEntry && !saved ? (
+              {todayEntry && !saved && (
                 <div className="card" style={{ textAlign: 'center', marginBottom: 20 }}>
                   <div style={{ fontSize: '2rem', marginBottom: 8 }}>{todayEntry.emoji}</div>
-                  <p style={{ fontWeight: 600, color: '#4a4060' }}>You checked in today: {todayEntry.label}</p>
-                  {todayEntry.response && (
-                    <p style={{ color: '#7a6e8a', marginTop: 12, fontStyle: 'italic', fontSize: '0.9rem' }}>"{todayEntry.response}"</p>
-                  )}
-                  <button onClick={() => setSaved(false)} style={{
-                    marginTop: 12, background: 'none', border: 'none', color: '#a89ebb',
-                    textDecoration: 'underline', cursor: 'pointer', fontSize: '0.8rem'
-                  }}>Update today's mood</button>
+                  <p style={{ fontWeight: 600, color: '#2C2C2C', fontFamily: 'Inter, sans-serif' }}>You checked in today: {todayEntry.label}</p>
+                  {todayEntry.response && <p style={{ color: '#7A6A5A', marginTop: 10, fontStyle: 'italic', fontSize: '0.88rem' }}>"{todayEntry.response}"</p>}
+                  <button onClick={() => setSaved(false)} style={{ marginTop: 12, background: 'none', border: 'none', color: '#D4770A', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.8rem', fontFamily: 'Inter, sans-serif' }}>Update today's mood</button>
                 </div>
-              ) : null}
+              )}
 
               {!saved && (
                 <>
-                  <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: 28 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: 24 }}>
                     {MOODS.map(mood => (
-                      <motion.button
-                        key={mood.score}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
+                      <motion.button key={mood.score} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}
                         onClick={() => setSelected(mood.score)}
                         style={{
                           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-                          background: selected === mood.score ? mood.color : 'white',
-                          border: selected === mood.score ? `2px solid ${mood.color}` : '2px solid transparent',
-                          borderRadius: 16, padding: '12px 10px', cursor: 'pointer',
-                          boxShadow: selected === mood.score ? `0 4px 16px ${mood.color}80` : '0 2px 8px rgba(0,0,0,0.06)',
-                          transition: 'all 0.2s ease', minWidth: 60
-                        }}
-                      >
+                          background: selected === mood.score ? mood.color : '#fff',
+                          border: selected === mood.score ? `2px solid ${mood.color}` : '2px solid #F0E6D0',
+                          borderRadius: 14, padding: '12px 10px', cursor: 'pointer',
+                          boxShadow: selected === mood.score ? `0 4px 16px ${mood.color}40` : '0 2px 8px rgba(180,120,60,0.06)',
+                          transition: 'all 0.2s ease', minWidth: 58,
+                        }}>
                         <span style={{ fontSize: '1.8rem', lineHeight: 1 }}>{mood.emoji}</span>
-                        <span style={{ fontSize: '0.65rem', fontWeight: 600, color: selected === mood.score ? '#4a4060' : '#a89ebb' }}>
-                          {mood.label}
-                        </span>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.63rem', fontWeight: 600, color: selected === mood.score ? '#fff' : '#7A6A5A' }}>{mood.label}</span>
                       </motion.button>
                     ))}
                   </div>
 
-                  <div className="card" style={{ marginBottom: 20 }}>
-                    <textarea
-                      value={note}
-                      onChange={e => setNote(e.target.value)}
-                      placeholder="Anything you'd like to add? (optional)"
-                      rows={3}
-                      style={{ marginBottom: 0 }}
-                    />
+                  <div className="card" style={{ marginBottom: 16 }}>
+                    <textarea value={note} onChange={e => setNote(e.target.value)} placeholder="Anything you'd like to add? (optional)" rows={3} />
                   </div>
 
-                  <button
-                    onClick={handleSave}
-                    disabled={!selected || aiLoading}
-                    className="btn btn-primary"
-                    style={{ width: '100%', fontSize: '1rem', padding: '14px' }}
-                  >
-                    {aiLoading ? 'Getting your response...' : 'Save Check-In'}
+                  <button onClick={handleSave} disabled={!selected || aiLoading} className="btn btn-primary" style={{ width: '100%', fontSize: '1rem', padding: '14px' }}>
+                    {aiLoading ? 'Getting your response…' : 'Save Check-In'}
                   </button>
                 </>
               )}
@@ -160,20 +126,16 @@ export default function MoodTracker() {
               {aiLoading && (
                 <div className="ai-loading" style={{ justifyContent: 'center', marginTop: 20 }}>
                   <div className="dots-loading"><span/><span/><span/></div>
-                  <span>Sending you some warmth...</span>
+                  <span>Sending you some warmth…</span>
                 </div>
               )}
 
               <AnimatePresence>
                 {saved && aiResponse && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="card"
-                    style={{ marginTop: 20, background: 'linear-gradient(135deg, #f5f0ff, #fce4ec)', textAlign: 'center' }}
-                  >
-                    <div style={{ fontSize: '2rem', marginBottom: 12 }}>💜</div>
-                    <p style={{ color: '#5a5070', lineHeight: 1.7, fontStyle: 'italic' }}>{aiResponse}</p>
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                    className="card" style={{ marginTop: 20, textAlign: 'center', borderLeft: '4px solid #D4770A' }}>
+                    <div style={{ fontSize: '2rem', marginBottom: 12 }}>🌸</div>
+                    <p style={{ fontStyle: 'italic', color: '#2C2C2C', lineHeight: 1.7 }}>{aiResponse}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -182,27 +144,21 @@ export default function MoodTracker() {
 
           {view === 'graph' && (
             <motion.div key="graph" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <div className="page-header">
-                <h1>📊 Mood History</h1>
-                <p>Your last 7 days at a glance</p>
-              </div>
+              <div className="page-header"><h1>📊 Mood History</h1><p>Your last 7 days at a glance</p></div>
               {chartData.length < 2 ? (
                 <div className="card" style={{ textAlign: 'center', padding: 40 }}>
-                  <p style={{ color: '#a89ebb' }}>Check in a few more times to see your mood graph 🌱</p>
+                  <p>Check in a few more times to see your mood graph 🌱</p>
                 </div>
               ) : (
                 <div className="card" style={{ padding: 24 }}>
                   <ResponsiveContainer width="100%" height={220}>
                     <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0ebf8" />
-                      <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#a89ebb' }} />
-                      <YAxis domain={[1, 5]} ticks={[1,2,3,4,5]} tick={{ fontSize: 11, fill: '#a89ebb' }} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#F0E6D0" />
+                      <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#7A6A5A', fontFamily: 'Inter' }} />
+                      <YAxis domain={[1, 5]} ticks={[1,2,3,4,5]} tick={{ fontSize: 11, fill: '#7A6A5A', fontFamily: 'Inter' }} />
                       <Tooltip content={<CustomTooltip />} />
-                      <Line
-                        type="monotone" dataKey="score" stroke="#c9b8e8"
-                        strokeWidth={3} dot={{ fill: '#c9b8e8', r: 6 }}
-                        activeDot={{ r: 8, fill: '#7c6ab0' }}
-                      />
+                      <Line type="monotone" dataKey="score" stroke="#D4770A" strokeWidth={3}
+                        dot={{ fill: '#D4770A', r: 6 }} activeDot={{ r: 8, fill: '#C0392B' }} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -212,10 +168,10 @@ export default function MoodTracker() {
                   <div key={m.date} className="card" style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 20px' }}>
                     <span style={{ fontSize: '1.5rem' }}>{m.emoji}</span>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 600, color: '#4a4060', fontSize: '0.9rem' }}>{m.label}</div>
-                      {m.note && <div style={{ color: '#a89ebb', fontSize: '0.8rem' }}>{m.note}</div>}
+                      <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#2C2C2C', fontSize: '0.88rem' }}>{m.label}</div>
+                      {m.note && <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.78rem' }}>{m.note}</div>}
                     </div>
-                    <div style={{ color: '#c0b8d0', fontSize: '0.75rem' }}>{shortDate(m.date)}</div>
+                    <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.73rem' }}>{shortDate(m.date)}</div>
                   </div>
                 ))}
               </div>

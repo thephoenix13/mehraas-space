@@ -11,8 +11,8 @@ const PATTERNS = {
       { label: 'Exhale', duration: 4 },
       { label: 'Hold', duration: 4 },
     ],
-    color: '#c9b8e8',
-    bg: 'linear-gradient(135deg, #e8dffa, #d4e8d4)'
+    color: '#D4770A',
+    bg: 'linear-gradient(160deg, #FAF3E0, #F5EDD6)',
   },
   '4-7-8': {
     desc: 'Calms the nervous system quickly',
@@ -21,8 +21,8 @@ const PATTERNS = {
       { label: 'Hold', duration: 7 },
       { label: 'Exhale', duration: 8 },
     ],
-    color: '#f5c6d0',
-    bg: 'linear-gradient(135deg, #fce4ec, #e8dffa)'
+    color: '#C0392B',
+    bg: 'linear-gradient(160deg, #F5EDD6, #FAF3E0)',
   },
   'Deep Calm': {
     desc: 'Slow, restorative breathing',
@@ -31,9 +31,9 @@ const PATTERNS = {
       { label: 'Hold', duration: 2 },
       { label: 'Exhale', duration: 6 },
     ],
-    color: '#b2c9b2',
-    bg: 'linear-gradient(135deg, #d4e8d4, #fff5f7)'
-  }
+    color: '#E8A020',
+    bg: 'linear-gradient(160deg, #FAF3E0, #F5EDD6)',
+  },
 }
 
 export default function Breathe() {
@@ -47,16 +47,8 @@ export default function Breathe() {
   const pattern = PATTERNS[selected]
   const step = pattern.steps[stepIdx]
 
-  const startSession = () => {
-    setActive(true)
-    setStepIdx(0)
-    setCountdown(pattern.steps[0].duration)
-  }
-
-  const stopSession = () => {
-    setActive(false)
-    clearInterval(timerRef.current)
-  }
+  const startSession = () => { setActive(true); setStepIdx(0); setCountdown(pattern.steps[0].duration) }
+  const stopSession = () => { setActive(false); clearInterval(timerRef.current) }
 
   useEffect(() => {
     if (!active) return
@@ -66,13 +58,7 @@ export default function Breathe() {
         if (prev <= 1) {
           setStepIdx(s => {
             const next = (s + 1) % pattern.steps.length
-            if (next === 0) {
-              setSessions(n => {
-                const updated = n + 1
-                localStorage.setItem('breathe_sessions', updated)
-                return updated
-              })
-            }
+            if (next === 0) setSessions(n => { const u = n + 1; localStorage.setItem('breathe_sessions', u); return u })
             return next
           })
           return 0
@@ -88,17 +74,9 @@ export default function Breathe() {
   const circleScale = active ? (isExpand ? 1.4 : isHold ? 1.4 : 1) : 1
 
   return (
-    <div style={{
-      minHeight: '100vh', paddingBottom: 80,
-      background: active ? pattern.bg : 'linear-gradient(160deg, #f5f0ff, #fff5f7)'
-    }}>
-      {/* Back button */}
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: active ? pattern.bg : '#FAF3E0', transition: 'background 0.8s ease' }}>
       <div style={{ padding: '16px 20px' }}>
-        <button onClick={() => navigate('/')} style={{
-          background: 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 12,
-          padding: '8px 16px', cursor: 'pointer', color: '#7a6e8a', fontFamily: 'Nunito, sans-serif',
-          fontWeight: 600, fontSize: '0.9rem'
-        }}>← Back</button>
+        <button onClick={() => navigate('/')} className="back-btn">← Back</button>
       </div>
 
       <div className="page-container" style={{ textAlign: 'center' }}>
@@ -107,59 +85,52 @@ export default function Breathe() {
           <p>Let your breath guide you to stillness</p>
         </div>
 
-        {/* Pattern Selector */}
+        {/* Pattern selector */}
         {!active && (
-          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 40 }}>
-            {Object.entries(PATTERNS).map(([name, p]) => (
-              <button key={name} onClick={() => setSelected(name)} style={{
-                padding: '10px 20px', borderRadius: 50, border: 'none', cursor: 'pointer',
-                fontFamily: 'Nunito, sans-serif', fontWeight: 700, fontSize: '0.85rem',
-                background: selected === name ? p.color : 'white',
-                color: selected === name ? 'white' : '#7a6e8a',
-                boxShadow: selected === name ? `0 4px 16px ${p.color}80` : '0 2px 8px rgba(0,0,0,0.06)',
-                transition: 'all 0.2s ease'
-              }}>{name}</button>
-            ))}
-          </div>
+          <>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 16 }}>
+              {Object.entries(PATTERNS).map(([name, p]) => (
+                <button key={name} onClick={() => setSelected(name)} style={{
+                  padding: '10px 20px', borderRadius: 50, border: 'none', cursor: 'pointer',
+                  fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.85rem',
+                  background: selected === name ? p.color : '#fff',
+                  color: selected === name ? '#fff' : '#7A6A5A',
+                  border: selected === name ? 'none' : '1px solid #F0E6D0',
+                  boxShadow: selected === name ? `0 4px 16px ${p.color}40` : '0 2px 8px rgba(180,120,60,0.06)',
+                  transition: 'all 0.2s ease',
+                }}>{name}</button>
+              ))}
+            </div>
+            <p style={{ color: '#7A6A5A', marginBottom: 36, fontSize: '0.9rem' }}>{pattern.desc}</p>
+          </>
         )}
 
-        {!active && (
-          <p style={{ color: '#a89ebb', marginBottom: 32, fontSize: '0.9rem' }}>
-            {pattern.desc}
-          </p>
-        )}
-
-        {/* Breathing Circle */}
+        {/* Breathing circle */}
         <div style={{ position: 'relative', width: 240, height: 240, margin: '0 auto 40px' }}>
-          {/* Outer ring */}
           <motion.div
-            animate={{ scale: active ? circleScale : 1, opacity: active ? 0.3 : 0.15 }}
+            animate={{ scale: active ? circleScale * 1.15 : 1, opacity: active ? 0.25 : 0.1 }}
             transition={{ duration: step?.duration || 1, ease: isHold ? 'linear' : 'easeInOut' }}
             style={{
-              position: 'absolute', inset: -20, borderRadius: '50%',
-              background: pattern.color, opacity: 0.15
+              position: 'absolute', inset: -24, borderRadius: '50%',
+              background: pattern.color, opacity: 0.1,
             }}
           />
-          {/* Main circle */}
           <motion.div
             animate={{ scale: active ? circleScale : 1 }}
             transition={{ duration: step?.duration || 1, ease: isHold ? 'linear' : 'easeInOut' }}
             style={{
               position: 'absolute', inset: 0, borderRadius: '50%',
-              background: `radial-gradient(circle, white 30%, ${pattern.color}80 100%)`,
-              boxShadow: `0 8px 40px ${pattern.color}60`,
+              background: `radial-gradient(circle, #fff 25%, ${pattern.color}30 100%)`,
+              border: `2px solid ${pattern.color}40`,
+              boxShadow: `0 8px 40px ${pattern.color}30`,
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              zIndex: 1
+              zIndex: 1,
             }}
           >
             {active ? (
               <>
-                <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#4a4060', marginBottom: 4 }}>
-                  {step.label}
-                </div>
-                <div style={{ fontSize: '2.5rem', fontWeight: 700, color: pattern.color.replace(')', ', 0.8)').replace('rgb', 'rgba') }}>
-                  {countdown}
-                </div>
+                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.2rem', fontWeight: 700, color: '#2C2C2C', marginBottom: 4 }}>{step.label}</div>
+                <div style={{ fontSize: '2.5rem', fontWeight: 700, color: pattern.color }}>{countdown}</div>
               </>
             ) : (
               <div style={{ fontSize: '3rem' }}>🌬️</div>
@@ -173,17 +144,15 @@ export default function Breathe() {
             {pattern.steps.map((s, i) => (
               <div key={i} style={{
                 padding: '6px 14px', borderRadius: 50,
-                background: i === stepIdx ? pattern.color : '#e8dffa',
-                color: i === stepIdx ? 'white' : '#a89ebb',
-                fontSize: '0.8rem', fontWeight: 600, transition: 'all 0.3s ease'
-              }}>
-                {s.label}
-              </div>
+                background: i === stepIdx ? pattern.color : '#F5EDD6',
+                color: i === stepIdx ? '#fff' : '#7A6A5A',
+                fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 600,
+                transition: 'all 0.3s ease',
+              }}>{s.label}</div>
             ))}
           </div>
         )}
 
-        {/* Controls */}
         {!active ? (
           <button onClick={startSession} className="btn btn-primary" style={{ fontSize: '1rem', padding: '14px 36px' }}>
             Begin Session
@@ -194,9 +163,8 @@ export default function Breathe() {
           </button>
         )}
 
-        {/* Session Counter */}
-        <div style={{ marginTop: 32, color: '#a89ebb', fontSize: '0.85rem' }}>
-          Sessions completed today: <strong style={{ color: '#7c6ab0' }}>{sessions}</strong>
+        <div style={{ marginTop: 32, color: '#7A6A5A', fontFamily: 'Inter, sans-serif', fontSize: '0.85rem' }}>
+          Sessions completed today: <strong style={{ color: '#C0392B' }}>{sessions}</strong>
         </div>
       </div>
     </div>

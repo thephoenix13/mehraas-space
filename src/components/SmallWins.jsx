@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { callClaude } from '../api'
 
 function Confetti({ active }) {
-  const colors = ['#c9b8e8', '#f5c6d0', '#b2c9b2', '#ffe082', '#81d4fa', '#ffb74d']
+  const colors = ['#D4770A', '#C0392B', '#E8A020', '#F5C842', '#A93226', '#E8C898']
   const pieces = Array.from({ length: 40 }, (_, i) => ({
     id: i,
     color: colors[i % colors.length],
@@ -77,22 +77,19 @@ export default function SmallWins() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'linear-gradient(160deg, #fffde7, #fce4ec, #f5f0ff)' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
       <Confetti active={confetti} />
 
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between' }}>
-        <button onClick={() => navigate('/')} style={{
-          background: 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 12,
-          padding: '8px 16px', cursor: 'pointer', color: '#7a6e8a',
-          fontFamily: 'Nunito, sans-serif', fontWeight: 600, fontSize: '0.9rem'
-        }}>← Home</button>
+        <button onClick={() => navigate('/')} className="back-btn">← Home</button>
         <div style={{ display: 'flex', gap: 8 }}>
           {['log', 'timeline'].map(v => (
             <button key={v} onClick={() => setView(v)} style={{
-              padding: '6px 14px', borderRadius: 50, border: 'none', cursor: 'pointer',
-              fontFamily: 'Nunito, sans-serif', fontWeight: 600, fontSize: '0.8rem',
-              background: view === v ? 'rgba(255,224,130,0.7)' : 'rgba(255,255,255,0.6)',
-              color: view === v ? '#5a4e00' : '#7a6e8a'
+              padding: '6px 14px', borderRadius: 50, border: '1px solid #F0E6D0', cursor: 'pointer',
+              fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '0.8rem',
+              background: view === v ? '#C0392B' : '#fff',
+              color: view === v ? '#fff' : '#7A6A5A',
+              transition: 'all 0.2s ease',
             }}>{v === 'log' ? '🏆 Log' : '📜 Timeline'}</button>
           ))}
         </div>
@@ -108,7 +105,7 @@ export default function SmallWins() {
               </div>
 
               <div className="card" style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontWeight: 700, color: '#5a5070', marginBottom: 10 }}>
+                <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 10, fontSize: '0.93rem' }}>
                   What's your win today?
                 </label>
                 <textarea
@@ -124,10 +121,11 @@ export default function SmallWins() {
                   onClick={handleSave}
                   disabled={!win.trim() || loading}
                   className="btn btn-primary"
-                  style={{ width: '100%', fontSize: '1rem', padding: '14px', background: 'linear-gradient(135deg, #ffe082, #ffb300)' }}
+                  style={{ width: '100%', fontSize: '1rem', padding: '14px' }}
                 >
                   {loading ? 'Celebrating...' : '🎉 Celebrate this Win!'}
                 </button>
+                {loading && <div className="ai-loading" style={{ justifyContent: 'center', marginTop: 14 }}><div className="dots-loading"><span/><span/><span/></div><span>Writing your celebration…</span></div>}
               </div>
 
               {wins.length > 0 && (
@@ -149,14 +147,14 @@ export default function SmallWins() {
                 style={{ textAlign: 'center', fontSize: '4rem', marginBottom: 20 }}
               >🏆</motion.div>
 
-              <div className="card" style={{ marginBottom: 16, background: 'linear-gradient(135deg, #fffde7, #fff8e1)', textAlign: 'center' }}>
-                <p style={{ fontWeight: 700, color: '#4a4060', fontSize: '1rem', marginBottom: 4 }}>Your win:</p>
-                <p style={{ color: '#7a6e8a', fontStyle: 'italic', marginBottom: 20 }}>"{wins[0]?.win}"</p>
-                <p style={{ color: '#5a5070', lineHeight: 1.75 }}>{celebration}</p>
+              <div className="card" style={{ marginBottom: 16, background: '#FFF8F0', borderLeft: '4px solid #D4770A', textAlign: 'center' }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', fontSize: '0.93rem', marginBottom: 8 }}>Your win:</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontStyle: 'italic', marginBottom: 20 }}>"{wins[0]?.win}"</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', lineHeight: 1.75 }}>{celebration}</p>
               </div>
 
               <div style={{ display: 'flex', gap: 10 }}>
-                <button onClick={() => { setWin(''); setView('log') }} className="btn btn-primary" style={{ flex: 1, background: 'linear-gradient(135deg, #ffe082, #ffb300)' }}>
+                <button onClick={() => { setWin(''); setView('log') }} className="btn btn-primary" style={{ flex: 1 }}>
                   Log Another Win
                 </button>
                 <button onClick={() => setView('timeline')} className="btn btn-ghost" style={{ flex: 1 }}>
@@ -173,7 +171,7 @@ export default function SmallWins() {
                 <p>{wins.length} victories and counting</p>
               </div>
               <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
-                <button onClick={() => setView('log')} className="btn btn-primary" style={{ flex: 1, background: 'linear-gradient(135deg, #ffe082, #ffb300)' }}>
+                <button onClick={() => setView('log')} className="btn btn-primary" style={{ flex: 1 }}>
                   + Add a Win
                 </button>
                 {wins.length > 0 && (
@@ -185,11 +183,11 @@ export default function SmallWins() {
               {wins.length === 0 ? (
                 <div className="card" style={{ textAlign: 'center', padding: 48 }}>
                   <div style={{ fontSize: '3rem', marginBottom: 12 }}>🏆</div>
-                  <p style={{ color: '#a89ebb' }}>Your wins timeline is waiting to be filled!</p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A' }}>Your wins timeline is waiting to be filled!</p>
                 </div>
               ) : (
                 <div style={{ position: 'relative' }}>
-                  <div style={{ position: 'absolute', left: 20, top: 0, bottom: 0, width: 2, background: 'linear-gradient(to bottom, #ffe082, #fce4ec)', borderRadius: 2 }} />
+                  <div style={{ position: 'absolute', left: 20, top: 0, bottom: 0, width: 2, background: 'linear-gradient(to bottom, #D4770A, #E8A020)', borderRadius: 2 }} />
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingLeft: 48 }}>
                     {wins.map((w, i) => (
                       <motion.div
@@ -201,12 +199,12 @@ export default function SmallWins() {
                       >
                         <div style={{
                           position: 'absolute', left: -36, top: 14, width: 12, height: 12,
-                          borderRadius: '50%', background: '#ffe082',
-                          border: '3px solid white', boxShadow: '0 0 0 2px #ffe082'
+                          borderRadius: '50%', background: '#D4770A',
+                          border: '3px solid #FAF3E0', boxShadow: '0 0 0 2px #D4770A'
                         }} />
                         <div className="card" style={{ padding: '14px 18px' }}>
-                          <p style={{ color: '#4a4060', fontWeight: 600, marginBottom: 4 }}>{w.win}</p>
-                          <p style={{ color: '#c0b8d0', fontSize: '0.75rem' }}>{w.date}</p>
+                          <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontWeight: 600, marginBottom: 4 }}>{w.win}</p>
+                          <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.75rem' }}>{w.date}</p>
                         </div>
                       </motion.div>
                     ))}
@@ -226,17 +224,19 @@ export default function SmallWins() {
                 animate={{ rotate: [-1, 1, -1] }}
                 transition={{ duration: 3, repeat: Infinity }}
                 style={{
-                  background: 'linear-gradient(135deg, #fffde7, #fff8e1)',
+                  background: '#FFF8F0',
+                  border: '1px solid #F0E6D0',
+                  borderTop: '4px solid #D4770A',
                   borderRadius: 24, padding: '40px 32px', textAlign: 'center',
-                  boxShadow: '0 12px 40px rgba(255,224,130,0.3)', marginBottom: 24
+                  boxShadow: '0 12px 40px rgba(212,119,10,0.12)', marginBottom: 24
                 }}
               >
                 <div style={{ fontSize: '3rem', marginBottom: 16 }}>🏆</div>
-                <p style={{ fontSize: '1.15rem', fontWeight: 700, color: '#4a4060', lineHeight: 1.7 }}>{picked.win}</p>
-                <p style={{ color: '#a89ebb', fontSize: '0.8rem', marginTop: 12 }}>{picked.date}</p>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.15rem', fontWeight: 700, color: '#2C2C2C', lineHeight: 1.7 }}>{picked.win}</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.8rem', marginTop: 12 }}>{picked.date}</p>
               </motion.div>
               <div style={{ display: 'flex', gap: 10 }}>
-                <button onClick={pickRandom} className="btn btn-primary" style={{ flex: 1, background: 'linear-gradient(135deg, #ffe082, #ffb300)' }}>
+                <button onClick={pickRandom} className="btn btn-primary" style={{ flex: 1 }}>
                   Another ✨
                 </button>
                 <button onClick={() => setView('log')} className="btn btn-ghost" style={{ flex: 1 }}>Back</button>

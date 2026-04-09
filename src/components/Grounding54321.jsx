@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { callClaude } from '../api'
 
 const STEPS = [
-  { count: 5, sense: 'See', prompt: 'Name 5 things you can see right now', emoji: '👁️', color: '#c9b8e8', examples: 'a window, a lamp, your hands, the ceiling...' },
-  { count: 4, sense: 'Touch', prompt: 'Name 4 things you can physically feel', emoji: '🤲', color: '#f5c6d0', examples: 'the floor beneath you, your clothes, the chair...' },
-  { count: 3, sense: 'Hear', prompt: 'Name 3 sounds you can hear', emoji: '👂', color: '#b2c9b2', examples: 'your breathing, distant traffic, birds...' },
-  { count: 2, sense: 'Smell', prompt: 'Name 2 things you can smell', emoji: '👃', color: '#ffe082', examples: 'the air, your drink, your clothes...' },
-  { count: 1, sense: 'Taste', prompt: 'Name 1 thing you can taste', emoji: '👅', color: '#b3e5fc', examples: 'water, toothpaste, coffee, nothing...' },
+  { count: 5, sense: 'See', prompt: 'Name 5 things you can see right now', emoji: '👁️', color: '#D4770A', examples: 'a window, a lamp, your hands, the ceiling...' },
+  { count: 4, sense: 'Touch', prompt: 'Name 4 things you can physically feel', emoji: '🤲', color: '#C0392B', examples: 'the floor beneath you, your clothes, the chair...' },
+  { count: 3, sense: 'Hear', prompt: 'Name 3 sounds you can hear', emoji: '👂', color: '#7A9E7A', examples: 'your breathing, distant traffic, birds...' },
+  { count: 2, sense: 'Smell', prompt: 'Name 2 things you can smell', emoji: '👃', color: '#E8A020', examples: 'the air, your drink, your clothes...' },
+  { count: 1, sense: 'Taste', prompt: 'Name 1 thing you can taste', emoji: '👅', color: '#A93226', examples: 'water, toothpaste, coffee, nothing...' },
 ]
 
 export default function Grounding54321() {
@@ -39,7 +39,7 @@ export default function Grounding54321() {
       )
       setAffirmation(text)
     } catch {
-      setAffirmation("You did something really powerful just now — you brought yourself back to the present moment. That is a skill, and you used it. You are safe, and you are here. 💜")
+      setAffirmation("You did something really powerful just now — you brought yourself back to the present moment. That is a skill, and you used it. You are safe, and you are here.")
     }
     setAffLoading(false)
   }
@@ -52,13 +52,9 @@ export default function Grounding54321() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'linear-gradient(160deg, #e8dffa, #fff5f7, #d4e8d4)' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
       <div style={{ padding: '16px 20px' }}>
-        <button onClick={() => navigate('/')} style={{
-          background: 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 12,
-          padding: '8px 16px', cursor: 'pointer', color: '#7a6e8a',
-          fontFamily: 'Nunito, sans-serif', fontWeight: 600, fontSize: '0.9rem'
-        }}>← Home</button>
+        <button onClick={() => navigate('/')} className="back-btn">← Home</button>
       </div>
 
       <div className="page-container">
@@ -73,18 +69,19 @@ export default function Grounding54321() {
               </div>
 
               <div className="card" style={{ textAlign: 'left', marginBottom: 24 }}>
-                <p style={{ color: '#5a5070', lineHeight: 1.8, marginBottom: 16 }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', lineHeight: 1.8, marginBottom: 16 }}>
                   This gentle technique uses your five senses to anchor you back into the present moment. It works by interrupting the anxiety spiral and reminding your nervous system that you are safe, right here, right now.
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {STEPS.map(s => (
                     <div key={s.sense} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <div style={{
-                        width: 32, height: 32, borderRadius: '50%', background: s.color + '60',
+                        width: 32, height: 32, borderRadius: '50%', background: s.color + '25',
+                        border: `1.5px solid ${s.color}40`,
                         display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', flexShrink: 0
                       }}>{s.emoji}</div>
-                      <span style={{ color: '#7a6e8a', fontSize: '0.9rem' }}>
-                        <strong style={{ color: '#5a5070' }}>{s.count}</strong> things you can <strong style={{ color: '#5a5070' }}>{s.sense.toLowerCase()}</strong>
+                      <span style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.9rem' }}>
+                        <strong style={{ color: '#2C2C2C' }}>{s.count}</strong> things you can <strong style={{ color: '#2C2C2C' }}>{s.sense.toLowerCase()}</strong>
                       </span>
                     </div>
                   ))}
@@ -104,7 +101,7 @@ export default function Grounding54321() {
                 {STEPS.map((s, i) => (
                   <div key={i} style={{
                     flex: 1, height: 6, borderRadius: 50,
-                    background: i <= stepIdx ? s.color : 'rgba(0,0,0,0.08)',
+                    background: i <= stepIdx ? s.color : '#F0E6D0',
                     transition: 'all 0.4s ease'
                   }} />
                 ))}
@@ -117,19 +114,19 @@ export default function Grounding54321() {
                   animate={{ scale: 1, opacity: 1 }}
                   style={{
                     width: 80, height: 80, borderRadius: '50%',
-                    background: step.color + '40',
+                    background: step.color + '20',
                     border: `3px solid ${step.color}`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: '2.2rem', margin: '0 auto 16px'
                   }}
                 >{step.emoji}</motion.div>
-                <div style={{ fontSize: '2.5rem', fontWeight: 800, color: step.color, marginBottom: 4 }}>
+                <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '2.5rem', fontWeight: 800, color: step.color, marginBottom: 4 }}>
                   {step.count}
                 </div>
-                <h2 style={{ color: '#4a4060', fontWeight: 800, fontSize: '1.3rem', marginBottom: 8 }}>
+                <h2 style={{ fontFamily: "'Playfair Display', serif", color: '#2C2C2C', fontWeight: 700, fontSize: '1.3rem', marginBottom: 8 }}>
                   {step.prompt}
                 </h2>
-                <p style={{ color: '#a89ebb', fontSize: '0.85rem' }}>e.g. {step.examples}</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.85rem' }}>e.g. {step.examples}</p>
               </div>
 
               <div className="card" style={{ marginBottom: 24 }}>
@@ -143,7 +140,7 @@ export default function Grounding54321() {
                   placeholder={`Type what you ${step.sense.toLowerCase()}...`}
                   rows={4}
                   autoFocus
-                  style={{ borderColor: step.color + '80' }}
+                  style={{ borderColor: step.color + '60' }}
                 />
               </div>
 
@@ -154,7 +151,7 @@ export default function Grounding54321() {
                 <button
                   onClick={handleNext}
                   className="btn btn-primary"
-                  style={{ flex: 2, background: `linear-gradient(135deg, ${step.color}, ${step.color}cc)` }}
+                  style={{ flex: 2 }}
                 >
                   {stepIdx === STEPS.length - 1 ? 'Finish ✓' : 'Next →'}
                 </button>
@@ -171,8 +168,8 @@ export default function Grounding54321() {
                 style={{ fontSize: '4rem', marginBottom: 20 }}
               >🌿</motion.div>
 
-              <h2 style={{ color: '#4a4060', fontWeight: 800, fontSize: '1.6rem', marginBottom: 12 }}>
-                You are grounded 💜
+              <h2 style={{ fontFamily: "'Playfair Display', serif", color: '#2C2C2C', fontWeight: 700, fontSize: '1.6rem', marginBottom: 12 }}>
+                You are grounded
               </h2>
 
               {/* Summary */}
@@ -181,8 +178,8 @@ export default function Grounding54321() {
                   <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 10, alignItems: 'flex-start' }}>
                     <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{s.emoji}</span>
                     <div>
-                      <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#a89ebb', textTransform: 'uppercase' }}>{s.count} {s.sense}</span>
-                      <p style={{ color: '#5a5070', fontSize: '0.88rem', marginTop: 2 }}>{answers[i]}</p>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: '#7A6A5A', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.count} {s.sense}</span>
+                      <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontSize: '0.88rem', marginTop: 2 }}>{answers[i]}</p>
                     </div>
                   </div>
                 ))}
@@ -197,13 +194,13 @@ export default function Grounding54321() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="card"
-                  style={{ marginBottom: 24, background: 'linear-gradient(135deg, #f5f0ff, #fce4ec)', textAlign: 'center' }}
+                  style={{ marginBottom: 24, background: '#FFF8F0', borderLeft: '4px solid #D4770A', textAlign: 'center' }}
                 >
-                  <p style={{ color: '#5a5070', lineHeight: 1.75, fontStyle: 'italic' }}>{affirmation}</p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', lineHeight: 1.75, fontStyle: 'italic' }}>{affirmation}</p>
                 </motion.div>
               )}
 
-              <button onClick={reset} className="btn btn-secondary">
+              <button onClick={reset} className="btn btn-ghost">
                 Start Over
               </button>
             </motion.div>

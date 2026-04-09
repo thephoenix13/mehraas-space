@@ -15,12 +15,12 @@ export default function Navbar() {
       bottom: 0,
       left: 0,
       right: 0,
-      background: 'rgba(255,255,255,0.92)',
+      background: 'rgba(250,243,224,0.96)',
       backdropFilter: 'blur(16px)',
-      borderTop: '1px solid rgba(201,184,232,0.3)',
+      borderTop: '1px solid #F0E6D0',
       padding: '8px 0 max(8px, env(safe-area-inset-bottom))',
       zIndex: 100,
-      boxShadow: '0 -4px 20px rgba(180,150,200,0.1)'
+      boxShadow: '0 -2px 16px rgba(180,120,60,0.08)'
     }}>
       <div style={{
         display: 'flex',
@@ -39,20 +39,20 @@ export default function Navbar() {
               alignItems: 'center',
               gap: 2,
               padding: '4px 12px',
-              borderRadius: 12,
+              borderRadius: 10,
               textDecoration: 'none',
               transition: 'all 0.2s ease',
-              background: isActive ? 'rgba(201,184,232,0.2)' : 'transparent',
+              background: isActive ? 'rgba(192,57,43,0.08)' : 'transparent',
             })}
           >
             {({ isActive }) => (
               <>
-                <span style={{ fontSize: '1.4rem', lineHeight: 1 }}>{item.icon}</span>
+                <span style={{ fontSize: '1.35rem', lineHeight: 1 }}>{item.icon}</span>
                 <span style={{
                   fontSize: '0.65rem',
-                  fontFamily: 'Nunito, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontWeight: isActive ? 700 : 500,
-                  color: isActive ? '#7c6ab0' : '#a89ebb',
+                  color: isActive ? '#C0392B' : '#7A6A5A',
                   letterSpacing: '0.02em'
                 }}>{item.label}</span>
               </>

@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { callClaude } from '../api'
 
-const EMOJIS = ['🌸', '☀️', '🌈', '🎉', '💜', '🌻', '⭐', '🍀', '🌊', '🎵', '🦋', '🌙', '🍎', '🌺', '✨']
-const BUBBLE_COLORS = ['#e8dffa', '#fce4ec', '#d4e8d4', '#fffde7', '#e1f5fe', '#fff3e0', '#f8bbd0', '#dce8ff']
+const EMOJIS = ['🌸', '☀️', '🌈', '🎉', '💛', '🌻', '⭐', '🍀', '🌊', '🎵', '🦋', '🌙', '🍎', '🌺', '✨']
+const BUBBLE_COLORS = ['#FFF8F0', '#FAF3E0', '#FFF0EE', '#FFFBF0', '#F5EDD6', '#FFF8F0', '#FFF0EE', '#FAF3E0']
+const BUBBLE_BORDERS = ['#D4770A', '#E8A020', '#C0392B', '#D4770A', '#A93226', '#D4770A', '#C0392B', '#E8A020']
 
 export default function MemoryJar() {
   const navigate = useNavigate()
@@ -24,7 +25,7 @@ export default function MemoryJar() {
     x: 10 + (i % 5) * 18 + Math.sin(i) * 4,
     y: 10 + Math.floor(i / 5) * 22 + Math.cos(i) * 3,
     size: 40 + Math.random() * 20,
-    color: BUBBLE_COLORS[i % BUBBLE_COLORS.length],
+    color: BUBBLE_BORDERS[i % BUBBLE_BORDERS.length],
     delay: i * 0.15
   })), [memories.length])
 
@@ -36,7 +37,7 @@ export default function MemoryJar() {
       desc: desc.trim(),
       date: date || new Date().toISOString().split('T')[0],
       emoji,
-      color: BUBBLE_COLORS[memories.length % BUBBLE_COLORS.length]
+      color: BUBBLE_BORDERS[memories.length % BUBBLE_BORDERS.length]
     }
     const updated = [m, ...memories]
     setMemories(updated)
@@ -57,7 +58,7 @@ export default function MemoryJar() {
       )
       setReflection(text)
     } catch {
-      setReflection("What a beautiful memory to carry with you. Let it remind you that life holds moments of real warmth, and more are coming. 💜")
+      setReflection("What a beautiful memory to carry with you. Let it remind you that life holds moments of real warmth, and more are coming.")
     }
     setReflLoading(false)
   }
@@ -69,23 +70,15 @@ export default function MemoryJar() {
   const formatDate = d => d ? new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'linear-gradient(160deg, #fce4ec, #e8dffa, #d4e8d4)' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <button onClick={() => view !== 'jar' ? setView('jar') : navigate('/')} style={{
-          background: 'rgba(255,255,255,0.7)', border: 'none', borderRadius: 12,
-          padding: '8px 16px', cursor: 'pointer', color: '#7a6e8a',
-          fontFamily: 'Nunito, sans-serif', fontWeight: 600, fontSize: '0.9rem'
-        }}>← {view !== 'jar' ? 'Back' : 'Home'}</button>
+        <button onClick={() => view !== 'jar' ? setView('jar') : navigate('/')} className="back-btn">
+          ← {view !== 'jar' ? 'Back' : 'Home'}
+        </button>
         {view === 'jar' && (
           <div style={{ display: 'flex', gap: 8 }}>
-            <button onClick={() => setView('search')} style={{
-              padding: '8px 14px', borderRadius: 12, border: 'none', cursor: 'pointer',
-              background: 'rgba(255,255,255,0.7)', color: '#7a6e8a', fontFamily: 'Nunito, sans-serif', fontWeight: 600, fontSize: '0.85rem'
-            }}>🔍 Search</button>
-            <button onClick={() => setView('add')} style={{
-              padding: '8px 14px', borderRadius: 12, border: 'none', cursor: 'pointer',
-              background: 'rgba(255,255,255,0.7)', color: '#7a6e8a', fontFamily: 'Nunito, sans-serif', fontWeight: 600, fontSize: '0.85rem'
-            }}>+ Add</button>
+            <button onClick={() => setView('search')} className="back-btn">🔍 Search</button>
+            <button onClick={() => setView('add')} className="back-btn">+ Add</button>
           </div>
         )}
       </div>
@@ -103,13 +96,11 @@ export default function MemoryJar() {
               {/* The jar */}
               <div style={{ textAlign: 'center', marginBottom: 28 }}>
                 <div style={{ position: 'relative', display: 'inline-block' }}>
-                  {/* Jar body */}
                   <svg width="220" height="280" viewBox="0 0 220 280">
-                    {/* Jar background */}
                     <defs>
                       <linearGradient id="jarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="rgba(255,255,255,0.85)" />
-                        <stop offset="100%" stopColor="rgba(240,230,255,0.7)" />
+                        <stop offset="0%" stopColor="rgba(255,255,255,0.92)" />
+                        <stop offset="100%" stopColor="rgba(255,240,220,0.75)" />
                       </linearGradient>
                       <filter id="glow">
                         <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -117,12 +108,12 @@ export default function MemoryJar() {
                       </filter>
                     </defs>
                     {/* Lid */}
-                    <rect x="55" y="8" width="110" height="28" rx="8" fill="rgba(201,184,232,0.7)" stroke="rgba(201,184,232,0.9)" strokeWidth="2"/>
-                    <rect x="65" y="24" width="90" height="12" rx="4" fill="rgba(201,184,232,0.5)"/>
+                    <rect x="55" y="8" width="110" height="28" rx="8" fill="rgba(212,119,10,0.4)" stroke="rgba(212,119,10,0.6)" strokeWidth="2"/>
+                    <rect x="65" y="24" width="90" height="12" rx="4" fill="rgba(212,119,10,0.25)"/>
                     {/* Jar body */}
-                    <path d="M40 48 Q30 48 30 65 L30 240 Q30 260 55 260 L165 260 Q190 260 190 240 L190 65 Q190 48 180 48 Z" fill="url(#jarGrad)" stroke="rgba(201,184,232,0.5)" strokeWidth="2"/>
+                    <path d="M40 48 Q30 48 30 65 L30 240 Q30 260 55 260 L165 260 Q190 260 190 240 L190 65 Q190 48 180 48 Z" fill="url(#jarGrad)" stroke="rgba(212,119,10,0.3)" strokeWidth="2"/>
                     {/* Glass shine */}
-                    <path d="M50 60 L50 240" stroke="rgba(255,255,255,0.5)" strokeWidth="8" strokeLinecap="round"/>
+                    <path d="M50 60 L50 240" stroke="rgba(255,255,255,0.6)" strokeWidth="8" strokeLinecap="round"/>
                     {/* Memory bubbles */}
                     {bubbles.map((b, i) => (
                       <motion.g key={i}
@@ -133,7 +124,9 @@ export default function MemoryJar() {
                           cx={b.x + 50}
                           cy={b.y + 90}
                           r={b.size / 4}
-                          fill={b.color}
+                          fill={b.color + '40'}
+                          stroke={b.color}
+                          strokeWidth="1"
                           opacity="0.85"
                           filter="url(#glow)"
                         />
@@ -146,13 +139,12 @@ export default function MemoryJar() {
                       </motion.g>
                     ))}
                     {memories.length === 0 && (
-                      <text x="110" y="170" textAnchor="middle" fill="rgba(168,158,187,0.6)" fontSize="12" fontFamily="Nunito">
+                      <text x="110" y="170" textAnchor="middle" fill="rgba(122,106,90,0.6)" fontSize="12" fontFamily="Inter">
                         Add your first memory
                       </text>
                     )}
-                    {/* Count label */}
                     {memories.length > 0 && (
-                      <text x="110" y="252" textAnchor="middle" fill="rgba(168,158,187,0.8)" fontSize="11" fontFamily="Nunito" fontWeight="bold">
+                      <text x="110" y="252" textAnchor="middle" fill="rgba(122,106,90,0.8)" fontSize="11" fontFamily="Inter" fontWeight="bold">
                         {memories.length} {memories.length === 1 ? 'memory' : 'memories'}
                       </text>
                     )}
@@ -165,7 +157,7 @@ export default function MemoryJar() {
                   + Add Memory
                 </button>
                 {memories.length > 0 && (
-                  <button onClick={() => shake(memories[Math.floor(Math.random() * memories.length)])} className="btn btn-secondary" style={{ flex: 1 }}>
+                  <button onClick={() => shake(memories[Math.floor(Math.random() * memories.length)])} className="btn btn-ghost" style={{ flex: 1 }}>
                     🫙 Shake the Jar
                   </button>
                 )}
@@ -174,7 +166,7 @@ export default function MemoryJar() {
               {/* Recent memories */}
               {memories.length > 0 && (
                 <>
-                  <h3 style={{ color: '#a89ebb', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
+                  <h3 style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
                     Recent memories
                   </h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -186,25 +178,28 @@ export default function MemoryJar() {
                         transition={{ delay: i * 0.08 }}
                         onClick={() => shake(m)}
                         style={{
-                          background: m.color + '50', borderRadius: 16,
+                          background: '#fff',
+                          border: '1px solid #F0E6D0',
+                          borderLeft: `4px solid ${m.color || '#D4770A'}`,
+                          borderRadius: 16,
                           padding: '14px 18px', cursor: 'pointer',
                           display: 'flex', alignItems: 'center', gap: 12,
-                          boxShadow: '0 3px 12px rgba(180,150,200,0.08)',
+                          boxShadow: '0 2px 10px rgba(180,120,60,0.06)',
                           transition: 'all 0.2s ease'
                         }}
                       >
                         <span style={{ fontSize: '1.5rem' }}>{m.emoji}</span>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontWeight: 700, color: '#4a4060', fontSize: '0.88rem', marginBottom: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.title}</div>
-                          {m.date && <div style={{ color: '#c0b8d0', fontSize: '0.72rem' }}>{formatDate(m.date)}</div>}
+                          <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', fontSize: '0.88rem', marginBottom: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.title}</div>
+                          {m.date && <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.72rem' }}>{formatDate(m.date)}</div>}
                         </div>
-                        <span style={{ color: '#c9b8e8', fontSize: '0.8rem' }}>→</span>
+                        <span style={{ fontFamily: 'Inter, sans-serif', color: '#D4770A', fontSize: '0.8rem' }}>→</span>
                       </motion.div>
                     ))}
                     {memories.length > 4 && (
                       <button onClick={() => setView('search')} style={{
-                        background: 'none', border: 'none', color: '#a89ebb', cursor: 'pointer',
-                        textDecoration: 'underline', fontSize: '0.82rem', fontFamily: 'Nunito, sans-serif',
+                        background: 'none', border: 'none', color: '#D4770A', cursor: 'pointer',
+                        textDecoration: 'underline', fontSize: '0.82rem', fontFamily: 'Inter, sans-serif',
                         textAlign: 'center', padding: 8
                       }}>View all {memories.length} memories →</button>
                     )}
@@ -223,13 +218,13 @@ export default function MemoryJar() {
 
               <div className="card">
                 <div style={{ marginBottom: 16 }}>
-                  <label style={{ display: 'block', fontWeight: 700, color: '#5a5070', marginBottom: 8, fontSize: '0.9rem' }}>Choose an emoji</label>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 8, fontSize: '0.9rem' }}>Choose an emoji</label>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                     {EMOJIS.map(e => (
                       <button key={e} onClick={() => setEmoji(e)} style={{
                         width: 40, height: 40, borderRadius: '50%', border: 'none', cursor: 'pointer',
-                        fontSize: '1.3rem', background: emoji === e ? '#e8dffa' : '#f5f0ff',
-                        boxShadow: emoji === e ? '0 0 0 3px #c9b8e8' : 'none',
+                        fontSize: '1.3rem', background: emoji === e ? '#FFF8F0' : '#F5EDD6',
+                        boxShadow: emoji === e ? '0 0 0 3px #D4770A' : 'none',
                         transition: 'all 0.15s ease'
                       }}>{e}</button>
                     ))}
@@ -237,15 +232,15 @@ export default function MemoryJar() {
                 </div>
 
                 <div style={{ marginBottom: 14 }}>
-                  <label style={{ display: 'block', fontWeight: 700, color: '#5a5070', marginBottom: 8, fontSize: '0.9rem' }}>Memory title *</label>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 8, fontSize: '0.9rem' }}>Memory title *</label>
                   <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Laughing with Mama on the balcony" autoFocus />
                 </div>
                 <div style={{ marginBottom: 14 }}>
-                  <label style={{ display: 'block', fontWeight: 700, color: '#5a5070', marginBottom: 8, fontSize: '0.9rem' }}>What made it special? (optional)</label>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 8, fontSize: '0.9rem' }}>What made it special? (optional)</label>
                   <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Share the details that make this moment sparkle..." rows={3} />
                 </div>
                 <div style={{ marginBottom: 24 }}>
-                  <label style={{ display: 'block', fontWeight: 700, color: '#5a5070', marginBottom: 8, fontSize: '0.9rem' }}>When was this? (optional)</label>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 8, fontSize: '0.9rem' }}>When was this? (optional)</label>
                   <input type="date" value={date} onChange={e => setDate(e.target.value)} />
                 </div>
 
@@ -267,15 +262,17 @@ export default function MemoryJar() {
                 animate={{ y: [0, -8, 0], rotate: [-1, 1, -1] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                 style={{
-                  background: `linear-gradient(135deg, ${shaken.color}, white)`,
+                  background: '#FFF8F0',
+                  border: '1px solid #F0E6D0',
+                  borderTop: `4px solid ${shaken.color || '#D4770A'}`,
                   borderRadius: 28, padding: '40px 32px', marginBottom: 24,
-                  boxShadow: '0 16px 48px rgba(180,150,200,0.2)'
+                  boxShadow: '0 16px 48px rgba(180,120,60,0.12)'
                 }}
               >
                 <div style={{ fontSize: '3.5rem', marginBottom: 16 }}>{shaken.emoji}</div>
-                <h2 style={{ fontWeight: 800, color: '#4a4060', fontSize: '1.3rem', marginBottom: 10 }}>{shaken.title}</h2>
-                {shaken.desc && <p style={{ color: '#7a6e8a', fontSize: '0.92rem', lineHeight: 1.7, marginBottom: 14 }}>{shaken.desc}</p>}
-                {shaken.date && <p style={{ color: '#c0b8d0', fontSize: '0.78rem' }}>{formatDate(shaken.date)}</p>}
+                <h2 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, color: '#2C2C2C', fontSize: '1.3rem', marginBottom: 10 }}>{shaken.title}</h2>
+                {shaken.desc && <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.92rem', lineHeight: 1.7, marginBottom: 14 }}>{shaken.desc}</p>}
+                {shaken.date && <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.78rem' }}>{formatDate(shaken.date)}</p>}
               </motion.div>
 
               {reflLoading ? (
@@ -288,9 +285,9 @@ export default function MemoryJar() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="card"
-                  style={{ marginBottom: 20, background: 'rgba(255,255,255,0.8)', textAlign: 'left' }}
+                  style={{ marginBottom: 20, borderLeft: '4px solid #D4770A', textAlign: 'left' }}
                 >
-                  <p style={{ color: '#5a5070', fontStyle: 'italic', lineHeight: 1.75 }}>{reflection}</p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontStyle: 'italic', lineHeight: 1.75 }}>{reflection}</p>
                 </motion.div>
               )}
 
@@ -321,22 +318,25 @@ export default function MemoryJar() {
                     transition={{ delay: i * 0.04 }}
                     onClick={() => shake(m)}
                     style={{
-                      background: m.color + '40', borderRadius: 16,
+                      background: '#fff', border: '1px solid #F0E6D0',
+                      borderLeft: `4px solid ${m.color || '#D4770A'}`,
+                      borderRadius: 16,
                       padding: '14px 18px', cursor: 'pointer',
-                      display: 'flex', alignItems: 'center', gap: 12
+                      display: 'flex', alignItems: 'center', gap: 12,
+                      boxShadow: '0 2px 10px rgba(180,120,60,0.06)',
                     }}
                   >
                     <span style={{ fontSize: '1.5rem' }}>{m.emoji}</span>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 700, color: '#4a4060', fontSize: '0.9rem' }}>{m.title}</div>
-                      {m.desc && <div style={{ color: '#7a6e8a', fontSize: '0.78rem', marginTop: 2 }}>{m.desc.slice(0, 60)}{m.desc.length > 60 ? '...' : ''}</div>}
-                      {m.date && <div style={{ color: '#c0b8d0', fontSize: '0.72rem', marginTop: 2 }}>{formatDate(m.date)}</div>}
+                      <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', fontSize: '0.9rem' }}>{m.title}</div>
+                      {m.desc && <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.78rem', marginTop: 2 }}>{m.desc.slice(0, 60)}{m.desc.length > 60 ? '...' : ''}</div>}
+                      {m.date && <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.72rem', marginTop: 2 }}>{formatDate(m.date)}</div>}
                     </div>
                   </motion.div>
                 ))}
                 {filtered.length === 0 && (
                   <div className="card" style={{ textAlign: 'center', padding: 32 }}>
-                    <p style={{ color: '#a89ebb' }}>{search ? 'No memories match your search.' : 'No memories yet. Add your first one!'}</p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A' }}>{search ? 'No memories match your search.' : 'No memories yet. Add your first one!'}</p>
                   </div>
                 )}
               </div>
