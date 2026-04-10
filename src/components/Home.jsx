@@ -56,12 +56,13 @@ const miniApps = [
   { path: '/garden', icon: '🌱', name: 'Growth Garden', desc: 'Watch yourself bloom' },
 ]
 
-function getGreeting() {
+function getGreeting(name) {
   const hour = new Date().getHours()
-  if (hour < 12) return { text: 'Good morning My Beloved', emoji: '🌸' }
-  if (hour < 17) return { text: 'Good afternoon My Beloved', emoji: '☀️' }
-  if (hour < 21) return { text: 'Good evening My Beloved', emoji: '🌙' }
-  return { text: 'Good night My Beloved', emoji: '⭐' }
+  const n = name || 'My Beloved'
+  if (hour < 12) return { text: `Good morning, ${n}`, emoji: '🌸' }
+  if (hour < 17) return { text: `Good afternoon, ${n}`, emoji: '☀️' }
+  if (hour < 21) return { text: `Good evening, ${n}`, emoji: '🌙' }
+  return { text: `Good night, ${n}`, emoji: '⭐' }
 }
 
 function formatDate() {
@@ -72,8 +73,19 @@ function formatDate() {
 
 export default function Home() {
   const navigate = useNavigate()
-  const greeting = getGreeting()
+  const [userName, setUserName] = useState(() => localStorage.getItem('user_name') || '')
+  const [editingName, setEditingName] = useState(false)
+  const [nameInput, setNameInput] = useState(userName)
+  const greeting = getGreeting(userName)
   const [thought, setThought] = useState('')
+
+  const saveName = () => {
+    const n = nameInput.trim()
+    if (!n) return
+    localStorage.setItem('user_name', n)
+    setUserName(n)
+    setEditingName(false)
+  }
 
   useEffect(() => {
     const now = Date.now()
@@ -134,6 +146,38 @@ export default function Home() {
           }}>
             {greeting.text}
           </h1>
+
+          {/* Inline name edit */}
+          {editingName ? (
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'center', alignItems: 'center', marginBottom: 8 }}>
+              <input
+                value={nameInput}
+                onChange={e => setNameInput(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') saveName(); if (e.key === 'Escape') setEditingName(false) }}
+                autoFocus
+                style={{
+                  padding: '6px 12px', borderRadius: 50, border: '1.5px solid #D4770A',
+                  background: 'var(--color-card)', color: 'var(--color-text)',
+                  fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', outline: 'none', maxWidth: 160,
+                }}
+              />
+              <button onClick={saveName} style={{
+                background: '#C0392B', border: 'none', color: '#fff', borderRadius: 50,
+                padding: '6px 14px', cursor: 'pointer', fontFamily: 'Inter, sans-serif',
+                fontSize: '0.8rem', fontWeight: 600,
+              }}>Save</button>
+              <button onClick={() => setEditingName(false)} style={{
+                background: 'none', border: 'none', color: 'var(--color-text-muted)',
+                cursor: 'pointer', fontSize: '0.8rem', fontFamily: 'Inter, sans-serif',
+              }}>✕</button>
+            </div>
+          ) : (
+            <button onClick={() => { setNameInput(userName); setEditingName(true) }} style={{
+              background: 'none', border: 'none', color: 'var(--color-text-muted)',
+              cursor: 'pointer', fontSize: '0.72rem', fontFamily: 'Inter, sans-serif',
+              textDecoration: 'underline', marginBottom: 6, display: 'block', margin: '0 auto 6px',
+            }}>✏️ Change name</button>
+          )}
 
           <p style={{
             fontFamily: 'Inter, sans-serif',

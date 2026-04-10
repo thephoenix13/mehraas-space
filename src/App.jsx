@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useState } from 'react'
 import Navbar from './components/Navbar'
+import Welcome from './components/Welcome'
 import { ThemeProvider } from './ThemeContext'
 
 // Original 9
@@ -44,6 +45,16 @@ function PageLoader() {
 }
 
 export default function App() {
+  const [userName, setUserName] = useState(() => localStorage.getItem('user_name') || '')
+
+  if (!userName) {
+    return (
+      <ThemeProvider>
+        <Welcome onComplete={name => setUserName(name)} />
+      </ThemeProvider>
+    )
+  }
+
   return (
     <ThemeProvider>
       <BrowserRouter>

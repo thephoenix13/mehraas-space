@@ -3,9 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { callClaudeChat } from '../api'
 
-const SYSTEM_PROMPT = `You are a warm, gentle, and empathetic companion for someone dealing with anxiety and depression. Your name is Soleil.
+function buildSystemPrompt() {
+  const name = localStorage.getItem('user_name') || 'friend'
+  const note = localStorage.getItem('user_note') || ''
+  return `You are a warm, gentle, and empathetic companion for someone dealing with anxiety and depression. Your name is Soleil.
+
+The person you're talking to is called ${name}.${note ? ` Here is something they shared about themselves: "${note}"` : ''}
 
 Guidelines:
+- Address them by name (${name}) occasionally — naturally, not every message — to make them feel truly seen
 - Always validate feelings before offering any perspective
 - Never minimize or dismiss emotions ("at least...", "you should be grateful")
 - Never give medical advice or diagnoses
@@ -14,10 +20,17 @@ Guidelines:
 - If someone seems to be in crisis, gently encourage them to reach out to a professional or crisis line
 - Use gentle language, occasional soft affirmations
 - Remember you're a companion, not a therapist`
+}
+
+function buildInitialMessage() {
+  const name = localStorage.getItem('user_name') || ''
+  const greeting = name ? `Hi, ${name} 🌸` : `Hi there 🌸`
+  return `${greeting} I'm Soleil, your gentle companion. This is a safe space — you can share anything that's on your heart or mind. How are you doing today?`
+}
 
 export default function TalkToMe() {
   const navigate = useNavigate()
-  const [messages, setMessages] = useState([{ role: 'assistant', content: "Hi there 🌸 I'm Soleil, your gentle companion. This is a safe space — you can share anything that's on your heart or mind. How are you doing today?" }])
+  const [messages, setMessages] = useState([{ role: 'assistant', content: buildInitialMessage() }])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const bottomRef = useRef(null)
@@ -34,7 +47,7 @@ export default function TalkToMe() {
     setMessages(newMessages)
     setLoading(true)
     try {
-      const reply = await callClaudeChat(newMessages.map(m => ({ role: m.role, content: m.content })), SYSTEM_PROMPT, 600)
+      const reply = await callClaudeChat(newMessages.map(m => ({ role: m.role, content: m.content })), buildSystemPrompt(), 600)
       setMessages(prev => [...prev, { role: 'assistant', content: reply }])
     } catch {
       setMessages(prev => [...prev, { role: 'assistant', content: "I'm here with you. Sometimes connections have little hiccups — please try again in a moment." }])
@@ -45,7 +58,7 @@ export default function TalkToMe() {
 
   const handleKey = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() } }
 
-  const clearChat = () => setMessages([{ role: 'assistant', content: "Hi there 🌸 I'm Soleil, your gentle companion. This is a safe space — you can share anything that's on your heart or mind. How are you doing today?" }])
+  const clearChat = () => setMessages([{ role: 'assistant', content: buildInitialMessage() }])
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--color-bg)' }}>
