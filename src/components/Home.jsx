@@ -58,11 +58,11 @@ const miniApps = [
 
 function getGreeting(name) {
   const hour = new Date().getHours()
-  const n = name || 'My Beloved'
-  if (hour < 12) return { text: `Good morning, ${n}`, emoji: '🌸' }
-  if (hour < 17) return { text: `Good afternoon, ${n}`, emoji: '☀️' }
-  if (hour < 21) return { text: `Good evening, ${n}`, emoji: '🌙' }
-  return { text: `Good night, ${n}`, emoji: '⭐' }
+  const suffix = name ? `, ${name}` : ''
+  if (hour < 12) return { text: `Good morning My Beloved${suffix}`, emoji: '🌸' }
+  if (hour < 17) return { text: `Good afternoon My Beloved${suffix}`, emoji: '☀️' }
+  if (hour < 21) return { text: `Good evening My Beloved${suffix}`, emoji: '🌙' }
+  return { text: `Good night My Beloved${suffix}`, emoji: '⭐' }
 }
 
 function formatDate() {
