@@ -8,14 +8,39 @@
   --color-text-muted: #7A6A5A;
   --color-card: #FFFFFF;
   --color-card-border: #F0E6D0;
+  --color-card-warm: #FFF8F0;
+  --color-input-bg: #FFFFFF;
+  --color-header-bg: rgba(250,243,224,0.96);
+  --color-back-btn-bg: rgba(255,255,255,0.8);
   --color-btn-primary: #C0392B;
   --color-btn-hover: #A93226;
+  --color-garden-sky: linear-gradient(180deg, #87CEEB 0%, #d4e8d0 25%, #FAF3E0 100%);
+  --color-jar-body-start: rgba(255,255,255,0.92);
+  --color-jar-body-end: rgba(255,240,220,0.75);
   --font-heading: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
   --radius-card: 16px;
   --radius-btn: 50px;
   --shadow-card: 0 2px 16px rgba(180,120,60,0.08);
   --shadow-hover: 0 8px 32px rgba(180,120,60,0.16);
+}
+
+[data-theme="dark"] {
+  --color-bg: #1C1208;
+  --color-bg-section: #251810;
+  --color-text: #F0E6D0;
+  --color-text-muted: #A89878;
+  --color-card: #2A1A0A;
+  --color-card-border: #3D2A18;
+  --color-card-warm: #321E10;
+  --color-input-bg: #2A1A0A;
+  --color-header-bg: rgba(28,18,8,0.96);
+  --color-back-btn-bg: rgba(255,255,255,0.07);
+  --color-garden-sky: linear-gradient(180deg, #0D1F35 0%, #1A2A1A 25%, #1C1208 100%);
+  --color-jar-body-start: rgba(44,26,14,0.95);
+  --color-jar-body-end: rgba(61,42,24,0.85);
+  --shadow-card: 0 2px 16px rgba(0,0,0,0.35);
+  --shadow-hover: 0 8px 32px rgba(0,0,0,0.45);
 }
 
 * {
@@ -34,6 +59,7 @@ body {
   color: var(--color-text);
   min-height: 100vh;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -142,9 +168,9 @@ input[type="date"] {
   font-family: var(--font-body);
   font-size: 0.95rem;
   color: var(--color-text);
-  background: #fff;
+  background: var(--color-input-bg);
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.3s ease;
   resize: vertical;
 }
 
@@ -213,7 +239,7 @@ input::placeholder {
 
 /* ── Back button shared style ── */
 .back-btn {
-  background: rgba(255,255,255,0.8);
+  background: var(--color-back-btn-bg);
   border: 1px solid var(--color-card-border);
   border-radius: 10px;
   padding: 8px 16px;

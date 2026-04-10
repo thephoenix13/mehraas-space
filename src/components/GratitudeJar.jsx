@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const NOTE_COLORS = ['#FFF3E0', '#FAF3E0', '#FFF8F0', '#F5EDD6', '#FFF0E6', '#FAEBD7']
-
 export default function GratitudeJar() {
   const navigate = useNavigate()
   const [notes, setNotes] = useState(() => JSON.parse(localStorage.getItem('gratitude_notes') || '[]'))
@@ -14,7 +12,7 @@ export default function GratitudeJar() {
 
   const addNote = () => {
     if (!text.trim()) return
-    const note = { id: Date.now(), text: text.trim(), date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), color: NOTE_COLORS[Math.floor(Math.random() * NOTE_COLORS.length)] }
+    const note = { id: Date.now(), text: text.trim(), date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) }
     setFalling(note)
     setTimeout(() => {
       const updated = [note, ...notes]
@@ -32,15 +30,15 @@ export default function GratitudeJar() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button onClick={() => navigate('/')} className="back-btn">← Home</button>
         <div style={{ display: 'flex', gap: 8 }}>
           {['jar', 'all'].map(v => (
             <button key={v} onClick={() => setView(v)} style={{
-              padding: '6px 14px', borderRadius: 50, border: '1px solid #F0E6D0', cursor: 'pointer',
+              padding: '6px 14px', borderRadius: 50, border: '1px solid var(--color-card-border)', cursor: 'pointer',
               fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '0.8rem',
-              background: view === v ? '#C0392B' : '#fff', color: view === v ? '#fff' : '#7A6A5A',
+              background: view === v ? '#C0392B' : 'var(--color-card)', color: view === v ? '#fff' : 'var(--color-text-muted)',
               transition: 'all 0.2s ease',
             }}>{v === 'jar' ? '🫙 Jar' : '📋 All'}</button>
           ))}
@@ -67,9 +65,9 @@ export default function GratitudeJar() {
                     exit={{ opacity: 0 }} transition={{ duration: 0.7, ease: 'easeIn' }}
                     style={{
                       position: 'fixed', top: 200, left: '50%', transform: 'translateX(-50%)',
-                      background: '#FFF8F0', border: '1px solid #F0E6D0', borderRadius: 12, padding: '12px 18px',
-                      maxWidth: 240, textAlign: 'center', boxShadow: '0 8px 24px rgba(180,120,60,0.1)',
-                      fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#2C2C2C', zIndex: 200, pointerEvents: 'none',
+                      background: 'var(--color-card-warm)', border: '1px solid var(--color-card-border)', borderRadius: 12, padding: '12px 18px',
+                      maxWidth: 240, textAlign: 'center', boxShadow: 'var(--shadow-card)',
+                      fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: 'var(--color-text)', zIndex: 200, pointerEvents: 'none',
                     }}
                   >{falling.text}</motion.div>
                 )}
@@ -79,12 +77,12 @@ export default function GratitudeJar() {
               <div style={{ textAlign: 'center', marginBottom: 32 }}>
                 <div style={{
                   display: 'inline-block', position: 'relative', width: 180, minHeight: 240,
-                  background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(8px)',
-                  borderRadius: '16px 16px 28px 28px', border: '2px solid #F0E6D0',
-                  boxShadow: '0 8px 32px rgba(180,120,60,0.1)', padding: '16px 12px 20px', overflow: 'hidden',
+                  background: 'var(--color-card)', backdropFilter: 'blur(8px)',
+                  borderRadius: '16px 16px 28px 28px', border: '2px solid var(--color-card-border)',
+                  boxShadow: 'var(--shadow-card)', padding: '16px 12px 20px', overflow: 'hidden',
                 }}>
-                  <div style={{ position: 'absolute', top: -16, left: -8, right: -8, height: 18, background: '#F5EDD6', borderRadius: 6, border: '1.5px solid #F0E6D0' }} />
-                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', color: '#7A6A5A', marginBottom: 8 }}>
+                  <div style={{ position: 'absolute', top: -16, left: -8, right: -8, height: 18, background: 'var(--color-bg-section)', borderRadius: 6, border: '1.5px solid var(--color-card-border)' }} />
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', color: 'var(--color-text-muted)', marginBottom: 8 }}>
                     {notes.length} gratitude{notes.length !== 1 ? 's' : ''}
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, justifyContent: 'center' }}>
@@ -92,7 +90,7 @@ export default function GratitudeJar() {
                       <motion.div key={n.id} initial={{ scale: 0 }} animate={{ scale: 1 }}
                         style={{ width: 28, height: 18, borderRadius: 4, background: '#D4770A', opacity: 0.3 + (i % 3) * 0.2 }} />
                     ))}
-                    {notes.length > 12 && <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.63rem', color: '#7A6A5A', width: '100%', textAlign: 'center', marginTop: 4 }}>+{notes.length - 12} more</div>}
+                    {notes.length > 12 && <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.63rem', color: 'var(--color-text-muted)', width: '100%', textAlign: 'center', marginTop: 4 }}>+{notes.length - 12} more</div>}
                   </div>
                 </div>
               </div>
@@ -116,9 +114,9 @@ export default function GratitudeJar() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {notes.map((n, i) => (
                     <motion.div key={n.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}
-                      style={{ background: '#fff', borderLeft: '4px solid #D4770A', borderRadius: 12, padding: '14px 18px', border: '1px solid #F0E6D0', borderLeftColor: '#D4770A' }}>
-                      <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontSize: '0.92rem', lineHeight: 1.6 }}>{n.text}</p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.73rem', marginTop: 6 }}>{n.date}</p>
+                      style={{ background: 'var(--color-card)', borderLeft: '4px solid #D4770A', borderRadius: 12, padding: '14px 18px', border: '1px solid var(--color-card-border)', borderLeftColor: '#D4770A' }}>
+                      <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', fontSize: '0.92rem', lineHeight: 1.6 }}>{n.text}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.73rem', marginTop: 6 }}>{n.date}</p>
                     </motion.div>
                   ))}
                 </div>
@@ -130,10 +128,10 @@ export default function GratitudeJar() {
             <motion.div key="picked" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
               <div className="page-header"><h1>✨ From your jar</h1><p>A little reminder from your past self</p></div>
               <motion.div animate={{ rotate: [-1, 1, -1] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                style={{ background: '#fff', border: '1px solid #F0E6D0', borderTop: '4px solid #D4770A', borderRadius: 20, padding: '40px 32px', textAlign: 'center', boxShadow: '0 8px 32px rgba(180,120,60,0.1)', marginBottom: 24 }}>
+                style={{ background: 'var(--color-card)', border: '1px solid var(--color-card-border)', borderTop: '4px solid #D4770A', borderRadius: 20, padding: '40px 32px', textAlign: 'center', boxShadow: 'var(--shadow-hover)', marginBottom: 24 }}>
                 <div style={{ fontSize: '2rem', marginBottom: 16 }}>🙏</div>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.1rem', color: '#2C2C2C', lineHeight: 1.7, fontWeight: 500 }}>{picked.text}</p>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.78rem', marginTop: 16 }}>{picked.date}</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '1.1rem', color: 'var(--color-text)', lineHeight: 1.7, fontWeight: 500 }}>{picked.text}</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.78rem', marginTop: 16 }}>{picked.date}</p>
               </motion.div>
               <div style={{ display: 'flex', gap: 10 }}>
                 <button onClick={pickRandom} className="btn btn-primary" style={{ flex: 1 }}>Pick Another ✨</button>

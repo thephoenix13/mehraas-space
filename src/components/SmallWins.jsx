@@ -41,7 +41,7 @@ export default function SmallWins() {
   const [wins, setWins] = useState(() => JSON.parse(localStorage.getItem('small_wins') || '[]'))
   const [confetti, setConfetti] = useState(false)
   const [picked, setPicked] = useState(null)
-  const [view, setView] = useState('log') // log | response | timeline | picked
+  const [view, setView] = useState('log')
 
   const handleSave = async () => {
     if (!win.trim()) return
@@ -77,7 +77,7 @@ export default function SmallWins() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <Confetti active={confetti} />
 
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between' }}>
@@ -85,10 +85,10 @@ export default function SmallWins() {
         <div style={{ display: 'flex', gap: 8 }}>
           {['log', 'timeline'].map(v => (
             <button key={v} onClick={() => setView(v)} style={{
-              padding: '6px 14px', borderRadius: 50, border: '1px solid #F0E6D0', cursor: 'pointer',
+              padding: '6px 14px', borderRadius: 50, border: '1px solid var(--color-card-border)', cursor: 'pointer',
               fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '0.8rem',
-              background: view === v ? '#C0392B' : '#fff',
-              color: view === v ? '#fff' : '#7A6A5A',
+              background: view === v ? '#C0392B' : 'var(--color-card)',
+              color: view === v ? '#fff' : 'var(--color-text-muted)',
               transition: 'all 0.2s ease',
             }}>{v === 'log' ? '🏆 Log' : '📜 Timeline'}</button>
           ))}
@@ -105,7 +105,7 @@ export default function SmallWins() {
               </div>
 
               <div className="card" style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 10, fontSize: '0.93rem' }}>
+                <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 10, fontSize: '0.93rem' }}>
                   What's your win today?
                 </label>
                 <textarea
@@ -147,10 +147,10 @@ export default function SmallWins() {
                 style={{ textAlign: 'center', fontSize: '4rem', marginBottom: 20 }}
               >🏆</motion.div>
 
-              <div className="card" style={{ marginBottom: 16, background: '#FFF8F0', borderLeft: '4px solid #D4770A', textAlign: 'center' }}>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', fontSize: '0.93rem', marginBottom: 8 }}>Your win:</p>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontStyle: 'italic', marginBottom: 20 }}>"{wins[0]?.win}"</p>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', lineHeight: 1.75 }}>{celebration}</p>
+              <div className="card" style={{ marginBottom: 16, background: 'var(--color-card-warm)', borderLeft: '4px solid #D4770A', textAlign: 'center' }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', fontSize: '0.93rem', marginBottom: 8 }}>Your win:</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontStyle: 'italic', marginBottom: 20 }}>"{wins[0]?.win}"</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', lineHeight: 1.75 }}>{celebration}</p>
               </div>
 
               <div style={{ display: 'flex', gap: 10 }}>
@@ -183,7 +183,7 @@ export default function SmallWins() {
               {wins.length === 0 ? (
                 <div className="card" style={{ textAlign: 'center', padding: 48 }}>
                   <div style={{ fontSize: '3rem', marginBottom: 12 }}>🏆</div>
-                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A' }}>Your wins timeline is waiting to be filled!</p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)' }}>Your wins timeline is waiting to be filled!</p>
                 </div>
               ) : (
                 <div style={{ position: 'relative' }}>
@@ -200,11 +200,11 @@ export default function SmallWins() {
                         <div style={{
                           position: 'absolute', left: -36, top: 14, width: 12, height: 12,
                           borderRadius: '50%', background: '#D4770A',
-                          border: '3px solid #FAF3E0', boxShadow: '0 0 0 2px #D4770A'
+                          border: '3px solid var(--color-bg)', boxShadow: '0 0 0 2px #D4770A'
                         }} />
                         <div className="card" style={{ padding: '14px 18px' }}>
-                          <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontWeight: 600, marginBottom: 4 }}>{w.win}</p>
-                          <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.75rem' }}>{w.date}</p>
+                          <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', fontWeight: 600, marginBottom: 4 }}>{w.win}</p>
+                          <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.75rem' }}>{w.date}</p>
                         </div>
                       </motion.div>
                     ))}
@@ -224,16 +224,16 @@ export default function SmallWins() {
                 animate={{ rotate: [-1, 1, -1] }}
                 transition={{ duration: 3, repeat: Infinity }}
                 style={{
-                  background: '#FFF8F0',
-                  border: '1px solid #F0E6D0',
+                  background: 'var(--color-card-warm)',
+                  border: '1px solid var(--color-card-border)',
                   borderTop: '4px solid #D4770A',
                   borderRadius: 24, padding: '40px 32px', textAlign: 'center',
                   boxShadow: '0 12px 40px rgba(212,119,10,0.12)', marginBottom: 24
                 }}
               >
                 <div style={{ fontSize: '3rem', marginBottom: 16 }}>🏆</div>
-                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.15rem', fontWeight: 700, color: '#2C2C2C', lineHeight: 1.7 }}>{picked.win}</p>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.8rem', marginTop: 12 }}>{picked.date}</p>
+                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.15rem', fontWeight: 700, color: 'var(--color-text)', lineHeight: 1.7 }}>{picked.win}</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.8rem', marginTop: 12 }}>{picked.date}</p>
               </motion.div>
               <div style={{ display: 'flex', gap: 10 }}>
                 <button onClick={pickRandom} className="btn btn-primary" style={{ flex: 1 }}>

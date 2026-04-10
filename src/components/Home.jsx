@@ -90,15 +90,15 @@ export default function Home() {
   }, [])
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       {/* Hero Header */}
       <motion.div
         initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         style={{
-          background: 'linear-gradient(160deg, #F5EDD6 0%, #FAF3E0 100%)',
-          borderBottom: '1px solid #F0E6D0',
+          background: 'linear-gradient(160deg, var(--color-bg-section) 0%, var(--color-bg) 100%)',
+          borderBottom: '1px solid var(--color-card-border)',
           padding: '52px 24px 44px',
           textAlign: 'center',
           position: 'relative',
@@ -137,7 +137,7 @@ export default function Home() {
 
           <p style={{
             fontFamily: 'Inter, sans-serif',
-            color: '#7A6A5A',
+            color: 'var(--color-text-muted)',
             fontSize: '0.88rem',
             marginBottom: 10,
             letterSpacing: '0.02em',
@@ -165,15 +165,14 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
             style={{
-              background: '#fff',
+              background: 'var(--color-card)',
               borderRadius: 12,
               padding: '16px 24px',
               maxWidth: 480,
               margin: '0 auto',
               textAlign: 'left',
-              boxShadow: '0 2px 16px rgba(180,120,60,0.08)',
-              border: '1px solid #F0E6D0',
-              borderLeftColor: '#D4770A',
+              boxShadow: 'var(--shadow-card)',
+              border: '1px solid var(--color-card-border)',
               borderLeft: '4px solid #D4770A',
             }}
           >
@@ -182,7 +181,7 @@ export default function Home() {
             </div>
             <p style={{
               fontFamily: 'Inter, sans-serif',
-              color: '#2C2C2C',
+              color: 'var(--color-text)',
               fontSize: '0.92rem',
               lineHeight: 1.75,
               margin: 0,
@@ -221,13 +220,13 @@ export default function Home() {
               whileTap={{ scale: 0.97 }}
               onClick={() => navigate(app.path)}
               style={{
-                background: '#fff',
-                border: '1px solid #F0E6D0',
+                background: 'var(--color-card)',
+                border: '1px solid var(--color-card-border)',
                 borderRadius: 16,
                 padding: '20px 14px',
                 cursor: 'pointer',
                 textAlign: 'center',
-                boxShadow: '0 2px 12px rgba(180,120,60,0.07)',
+                boxShadow: 'var(--shadow-card)',
                 transition: 'all 0.25s ease',
                 position: 'relative',
                 overflow: 'hidden',
@@ -243,8 +242,8 @@ export default function Home() {
               {/* Icon circle */}
               <div style={{
                 width: 50, height: 50, borderRadius: '50%',
-                background: '#FAF3E0',
-                border: '1.5px solid #F0E6D0',
+                background: 'var(--color-bg)',
+                border: '1.5px solid var(--color-card-border)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '1.45rem', margin: '0 auto 12px',
               }}>
@@ -262,7 +261,7 @@ export default function Home() {
               </div>
               <div style={{
                 fontFamily: 'Inter, sans-serif',
-                color: '#7A6A5A',
+                color: 'var(--color-text-muted)',
                 fontSize: '0.72rem',
                 lineHeight: 1.4,
               }}>

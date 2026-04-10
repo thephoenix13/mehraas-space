@@ -70,7 +70,7 @@ export default function CalmCorner() {
   const activeSounds = Object.keys(volumes)
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px' }}>
         <button onClick={() => navigate('/')} className="back-btn">← Home</button>
       </div>
@@ -80,7 +80,7 @@ export default function CalmCorner() {
 
         {activeSounds.length > 0 && (
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
-            style={{ textAlign: 'center', marginBottom: 20, padding: '12px 16px', background: '#fff', border: '1px solid #F0E6D0', borderLeft: '4px solid #D4770A', borderRadius: 12, fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#7A6A5A' }}>
+            style={{ textAlign: 'center', marginBottom: 20, padding: '12px 16px', background: 'var(--color-card)', border: '1px solid var(--color-card-border)', borderLeft: '4px solid #D4770A', borderRadius: 12, fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>
             <motion.span animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, repeat: Infinity }}>🎵</motion.span>
             {' '}Now playing: {activeSounds.map(id => SOUNDS.find(s => s.id === id)?.emoji).join(' ')} {activeSounds.map(id => SOUNDS.find(s => s.id === id)?.label).join(', ')}
           </motion.div>
@@ -93,10 +93,10 @@ export default function CalmCorner() {
             return (
               <motion.div key={sound.id} whileHover={{ y: -2 }}
                 style={{
-                  background: '#fff',
-                  border: isActive ? '2px solid #D4770A' : '1px solid #F0E6D0',
+                  background: 'var(--color-card)',
+                  border: isActive ? '2px solid #D4770A' : '1px solid var(--color-card-border)',
                   borderRadius: 16, padding: '18px 16px',
-                  boxShadow: isActive ? '0 4px 20px rgba(212,119,10,0.12)' : '0 2px 10px rgba(180,120,60,0.06)',
+                  boxShadow: isActive ? '0 4px 20px rgba(212,119,10,0.12)' : 'var(--shadow-card)',
                   transition: 'all 0.25s ease',
                 }}>
                 <button onClick={() => toggleSound(sound.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', width: '100%', padding: 0 }}>
@@ -104,12 +104,12 @@ export default function CalmCorner() {
                     <motion.div
                       animate={isActive ? { scale: [1, 1.1, 1] } : { scale: 1 }}
                       transition={isActive ? { duration: 1.5, repeat: Infinity } : {}}
-                      style={{ width: 44, height: 44, borderRadius: '50%', background: isActive ? '#FAF3E0' : '#F5EDD6', border: `1.5px solid ${isActive ? '#D4770A' : '#F0E6D0'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', flexShrink: 0 }}>
+                      style={{ width: 44, height: 44, borderRadius: '50%', background: isActive ? 'var(--color-bg)' : 'var(--color-bg-section)', border: `1.5px solid ${isActive ? '#D4770A' : 'var(--color-card-border)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', flexShrink: 0 }}>
                       {sound.emoji}
                     </motion.div>
                     <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.88rem', color: '#2C2C2C' }}>{sound.label}</div>
-                      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: isActive ? '#D4770A' : '#7A6A5A' }}>{isActive ? 'Playing' : 'Tap to play'}</div>
+                      <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: '0.88rem', color: 'var(--color-text)' }}>{sound.label}</div>
+                      <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', color: isActive ? '#D4770A' : 'var(--color-text-muted)' }}>{isActive ? 'Playing' : 'Tap to play'}</div>
                     </div>
                   </div>
                 </button>
@@ -128,7 +128,7 @@ export default function CalmCorner() {
           })}
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: 28, fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.8rem' }}>
+        <div style={{ textAlign: 'center', marginTop: 28, fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>
           Mix multiple sounds together for your perfect atmosphere ✨
         </div>
       </div>

@@ -184,16 +184,16 @@ export default function GrowthGarden() {
   const todayCount = Object.values(todayLogged).filter(Boolean).length
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'linear-gradient(180deg, #87CEEB 0%, #d4e8d0 25%, #FAF3E0 100%)' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-garden-sky)' }}>
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button onClick={() => navigate('/')} className="back-btn">← Home</button>
         <div style={{ display: 'flex', gap: 8 }}>
           {['garden', 'log'].map(v => (
             <button key={v} onClick={() => setView(v)} style={{
-              padding: '6px 14px', borderRadius: 50, border: '1px solid #F0E6D0', cursor: 'pointer',
+              padding: '6px 14px', borderRadius: 50, border: '1px solid var(--color-card-border)', cursor: 'pointer',
               fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '0.8rem',
-              background: view === v ? '#C0392B' : 'rgba(255,255,255,0.8)',
-              color: view === v ? 'white' : '#5A8A5A',
+              background: view === v ? '#C0392B' : 'var(--color-card)',
+              color: view === v ? 'white' : 'var(--color-text-muted)',
               transition: 'all 0.2s ease',
             }}>{v === 'garden' ? '🌱 Garden' : '✅ Log Today'}</button>
           ))}
@@ -205,7 +205,7 @@ export default function GrowthGarden() {
           <motion.div key="garden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             {/* Sky area */}
             <div style={{ textAlign: 'center', padding: '0 0 0', position: 'relative' }}>
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: '#5A8A5A', fontWeight: 600, padding: '8px 0 4px' }}>
+              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.85rem', color: 'var(--color-text-muted)', fontWeight: 600, padding: '8px 0 4px' }}>
                 🌱 {totalPlants} plant{totalPlants !== 1 ? 's' : ''} growing · {logs.length} day{logs.length !== 1 ? 's' : ''} tended
               </div>
 
@@ -280,16 +280,16 @@ export default function GrowthGarden() {
 
             {/* Garden caption */}
             <div style={{ textAlign: 'center', padding: '8px 20px 20px' }}>
-              {totalPlants === 0 && <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.9rem' }}>Your garden is waiting for you 🌱</p>}
-              {totalPlants > 0 && totalPlants < 6 && <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.9rem' }}>A beautiful start. Keep going! 🌿</p>}
-              {totalPlants >= 6 && totalPlants < 15 && <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.9rem' }}>Your garden is blooming! 🌸</p>}
-              {totalPlants >= 15 && <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.9rem' }}>What a beautiful, flourishing garden you've grown 🌻✨</p>}
+              {totalPlants === 0 && <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>Your garden is waiting for you 🌱</p>}
+              {totalPlants > 0 && totalPlants < 6 && <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>A beautiful start. Keep going! 🌿</p>}
+              {totalPlants >= 6 && totalPlants < 15 && <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>Your garden is blooming! 🌸</p>}
+              {totalPlants >= 15 && <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>What a beautiful, flourishing garden you've grown 🌻✨</p>}
             </div>
 
             {/* Habit legend */}
             <div style={{ maxWidth: 700, margin: '0 auto', padding: '0 16px 16px' }}>
               <div className="card" style={{ padding: '16px 20px' }}>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, color: '#7A6A5A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
                   Each plant represents...
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -298,7 +298,7 @@ export default function GrowthGarden() {
                       display: 'flex', alignItems: 'center', gap: 6,
                       background: h.color + '15', border: `1px solid ${h.color}40`,
                       borderRadius: 50,
-                      padding: '4px 12px', fontSize: '0.78rem', color: '#2C2C2C'
+                      padding: '4px 12px', fontSize: '0.78rem', color: 'var(--color-text)'
                     }}>
                       <span>{h.emoji}</span>
                       <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600 }}>{h.label}</span>
@@ -312,7 +312,7 @@ export default function GrowthGarden() {
               <button onClick={() => setView('log')} className="btn btn-primary" style={{ width: '100%' }}>
                 🌱 Log Today's Habits
               </button>
-              <p style={{ fontFamily: 'Inter, sans-serif', textAlign: 'center', color: '#7A6A5A', fontSize: '0.78rem', marginTop: 10 }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.78rem', marginTop: 10 }}>
                 Missing days don't affect your garden — it's always beautiful 💚
               </p>
             </div>
@@ -336,23 +336,23 @@ export default function GrowthGarden() {
                       whileTap={{ scale: 0.98 }}
                       onClick={() => logHabit(habit.id)}
                       style={{
-                        background: isChecked ? habit.color + '15' : 'white',
-                        border: isChecked ? `2px solid ${habit.color}` : '1px solid #F0E6D0',
+                        background: isChecked ? habit.color + '15' : 'var(--color-card)',
+                        border: isChecked ? `2px solid ${habit.color}` : '1px solid var(--color-card-border)',
                         borderRadius: 18, padding: '16px 20px', cursor: 'pointer', textAlign: 'left',
-                        boxShadow: '0 2px 10px rgba(180,120,60,0.06)', transition: 'all 0.25s ease',
+                        boxShadow: 'var(--shadow-card)', transition: 'all 0.25s ease',
                         display: 'flex', alignItems: 'center', gap: 14
                       }}
                     >
                       <div style={{
                         width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-                        background: isChecked ? habit.color + '30' : '#F5EDD6',
+                        background: isChecked ? habit.color + '30' : 'var(--color-bg-section)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem'
                       }}>
                         {isChecked ? '✓' : habit.emoji}
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', fontSize: '0.9rem' }}>{habit.label}</div>
-                        <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.75rem', marginTop: 2 }}>
+                        <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', fontSize: '0.9rem' }}>{habit.label}</div>
+                        <div style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.75rem', marginTop: 2 }}>
                           {isChecked ? `Adds a ${['flower', 'bloom', 'plant', 'blossom', 'petal', 'bud'][HABITS.findIndex(h => h.id === habit.id)]} to your garden` : 'Tap to log'}
                         </div>
                       </div>
@@ -372,7 +372,7 @@ export default function GrowthGarden() {
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  style={{ marginBottom: 16, textAlign: 'center', fontFamily: 'Inter, sans-serif', color: '#5A8A5A', fontSize: '0.9rem' }}
+                  style={{ marginBottom: 16, textAlign: 'center', fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}
                 >
                   🌱 {todayCount} new plant{todayCount > 1 ? 's' : ''} ready to grow!
                 </motion.div>
@@ -386,7 +386,7 @@ export default function GrowthGarden() {
               >
                 🌻 Plant in My Garden
               </button>
-              <p style={{ fontFamily: 'Inter, sans-serif', textAlign: 'center', color: '#7A6A5A', fontSize: '0.78rem' }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.78rem' }}>
                 You can come back anytime — there's no wrong time to tend your garden 🌿
               </p>
             </div>

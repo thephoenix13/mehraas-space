@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { Suspense, lazy } from 'react'
 import Navbar from './components/Navbar'
+import { ThemeProvider } from './ThemeContext'
 
 // Original 9
 const Home = lazy(() => import('./components/Home'))
@@ -30,7 +31,7 @@ function PageLoader() {
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: 'linear-gradient(160deg, #f5f0ff 0%, #fff5f7 50%, #f0f7f0 100%)'
+      background: 'var(--color-bg)'
     }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{ fontSize: '2.5rem', marginBottom: 12 }}>🌸</div>
@@ -44,37 +45,39 @@ function PageLoader() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <div style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #f5f0ff 0%, #fff5f7 50%, #f0f7f0 100%)' }}>
-        <Suspense fallback={<PageLoader />}>
-          <AnimatePresence mode="wait">
-            <Routes>
-              {/* Original */}
-              <Route path="/" element={<Home />} />
-              <Route path="/breathe" element={<Breathe />} />
-              <Route path="/journal" element={<Journal />} />
-              <Route path="/mood" element={<MoodTracker />} />
-              <Route path="/gratitude" element={<GratitudeJar />} />
-              <Route path="/worry" element={<WorrySorter />} />
-              <Route path="/letters" element={<LettersToMyself />} />
-              <Route path="/affirmations" element={<Affirmations />} />
-              <Route path="/calm" element={<CalmCorner />} />
-              <Route path="/talk" element={<TalkToMe />} />
-              {/* New */}
-              <Route path="/cbt" element={<CBTThoughtDiary />} />
-              <Route path="/sleep" element={<SleepWindDown />} />
-              <Route path="/wins" element={<SmallWins />} />
-              <Route path="/meditation" element={<GuidedMeditation />} />
-              <Route path="/grounding" element={<Grounding54321 />} />
-              <Route path="/selfcare" element={<SelfCareChecklist />} />
-              <Route path="/coping" element={<CopingCards />} />
-              <Route path="/memories" element={<MemoryJar />} />
-              <Route path="/garden" element={<GrowthGarden />} />
-            </Routes>
-          </AnimatePresence>
-        </Suspense>
-        <Navbar />
-      </div>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <div style={{ minHeight: '100vh', background: 'var(--color-bg)' }}>
+          <Suspense fallback={<PageLoader />}>
+            <AnimatePresence mode="wait">
+              <Routes>
+                {/* Original */}
+                <Route path="/" element={<Home />} />
+                <Route path="/breathe" element={<Breathe />} />
+                <Route path="/journal" element={<Journal />} />
+                <Route path="/mood" element={<MoodTracker />} />
+                <Route path="/gratitude" element={<GratitudeJar />} />
+                <Route path="/worry" element={<WorrySorter />} />
+                <Route path="/letters" element={<LettersToMyself />} />
+                <Route path="/affirmations" element={<Affirmations />} />
+                <Route path="/calm" element={<CalmCorner />} />
+                <Route path="/talk" element={<TalkToMe />} />
+                {/* New */}
+                <Route path="/cbt" element={<CBTThoughtDiary />} />
+                <Route path="/sleep" element={<SleepWindDown />} />
+                <Route path="/wins" element={<SmallWins />} />
+                <Route path="/meditation" element={<GuidedMeditation />} />
+                <Route path="/grounding" element={<Grounding54321 />} />
+                <Route path="/selfcare" element={<SelfCareChecklist />} />
+                <Route path="/coping" element={<CopingCards />} />
+                <Route path="/memories" element={<MemoryJar />} />
+                <Route path="/garden" element={<GrowthGarden />} />
+              </Routes>
+            </AnimatePresence>
+          </Suspense>
+          <Navbar />
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }

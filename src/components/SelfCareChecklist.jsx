@@ -58,7 +58,7 @@ Please give them a warm, kind, non-judgmental end-of-day message (2-3 sentences)
   const barColor = pct === 100 ? '#7A9E7A' : pct >= 60 ? '#D4770A' : pct >= 30 ? '#C0392B' : '#E8A020'
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px' }}>
         <button onClick={() => navigate('/')} className="back-btn">← Home</button>
       </div>
@@ -72,10 +72,10 @@ Please give them a warm, kind, non-judgmental end-of-day message (2-3 sentences)
         {/* Progress fill bar */}
         <div className="card" style={{ marginBottom: 24, padding: '20px 24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', fontSize: '0.9rem' }}>Today's care</span>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', fontSize: '0.9rem' }}>Today's care</span>
             <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: barColor, fontSize: '0.9rem' }}>{count} of {ITEMS.length}</span>
           </div>
-          <div style={{ height: 14, background: '#F0E6D0', borderRadius: 50, overflow: 'hidden' }}>
+          <div style={{ height: 14, background: 'var(--color-card-border)', borderRadius: 50, overflow: 'hidden' }}>
             <motion.div
               animate={{ width: `${pct}%` }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -85,7 +85,7 @@ Please give them a warm, kind, non-judgmental end-of-day message (2-3 sentences)
               }}
             />
           </div>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#7A6A5A', marginTop: 8, textAlign: 'center' }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: 'var(--color-text-muted)', marginTop: 8, textAlign: 'center' }}>
             {pct === 0 ? "Start whenever you're ready 🌸" : pct === 100 ? 'You took such good care of yourself today! 🌟' : `You're doing beautifully — ${8 - count} more to go`}
           </p>
         </div>
@@ -98,25 +98,25 @@ Please give them a warm, kind, non-judgmental end-of-day message (2-3 sentences)
               whileTap={{ scale: 0.98 }}
               onClick={() => toggle(item.id)}
               style={{
-                background: checked[item.id] ? '#FFF8F0' : 'white',
-                border: checked[item.id] ? `2px solid #D4770A` : '1px solid #F0E6D0',
+                background: checked[item.id] ? 'var(--color-card-warm)' : 'var(--color-card)',
+                border: checked[item.id] ? `2px solid #D4770A` : '1px solid var(--color-card-border)',
                 borderRadius: 16, padding: '16px 18px', cursor: 'pointer', textAlign: 'left',
-                boxShadow: '0 2px 10px rgba(180,120,60,0.06)', transition: 'all 0.25s ease',
+                boxShadow: 'var(--shadow-card)', transition: 'all 0.25s ease',
                 display: 'flex', alignItems: 'center', gap: 14
               }}
             >
               <div style={{
                 width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-                background: checked[item.id] ? '#D4770A20' : '#F5EDD6',
+                background: checked[item.id] ? '#D4770A20' : 'var(--color-bg-section)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem'
               }}>
                 {checked[item.id] ? '✓' : item.emoji}
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', fontSize: '0.9rem' }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', fontSize: '0.9rem' }}>
                   {item.label}
                 </div>
-                <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.78rem', marginTop: 2 }}>{item.desc}</div>
+                <div style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.78rem', marginTop: 2 }}>{item.desc}</div>
               </div>
               <motion.div
                 animate={{ scale: checked[item.id] ? 1 : 0, opacity: checked[item.id] ? 1 : 0 }}
@@ -141,11 +141,11 @@ Please give them a warm, kind, non-judgmental end-of-day message (2-3 sentences)
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               className="card"
-              style={{ background: '#FFF8F0', borderLeft: '4px solid #D4770A', textAlign: 'center' }}
+              style={{ background: 'var(--color-card-warm)', borderLeft: '4px solid #D4770A', textAlign: 'center' }}
             >
-              <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', lineHeight: 1.75, fontStyle: 'italic' }}>{message}</p>
+              <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', lineHeight: 1.75, fontStyle: 'italic' }}>{message}</p>
               <button onClick={() => setMsgShown(false)} style={{
-                marginTop: 12, background: 'none', border: 'none', color: '#7A6A5A',
+                marginTop: 12, background: 'none', border: 'none', color: 'var(--color-text-muted)',
                 cursor: 'pointer', fontSize: '0.8rem', textDecoration: 'underline',
                 fontFamily: 'Inter, sans-serif'
               }}>Ask again</button>

@@ -41,7 +41,7 @@ export default function WorrySorter() {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button onClick={() => navigate('/')} className="back-btn">← Home</button>
         <button onClick={() => setView(view === 'past' ? 'write' : 'past')} className="back-btn">📋 Past Worries</button>
@@ -53,17 +53,17 @@ export default function WorrySorter() {
             <motion.div key="write" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <div className="page-header"><h1>💭 Worry Sorter</h1><p>Let's gently untangle what's on your mind</p></div>
               <div className="card" style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 10, fontSize: '0.93rem' }}>What's worrying you?</label>
+                <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 10, fontSize: '0.93rem' }}>What's worrying you?</label>
                 <textarea value={worry} onChange={e => setWorry(e.target.value)} placeholder="Write your worry here, no matter how big or small…" rows={5} style={{ marginBottom: 18 }} autoFocus />
 
-                <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 12, fontSize: '0.93rem' }}>Is this in your control?</label>
+                <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 12, fontSize: '0.93rem' }}>Is this in your control?</label>
                 <div style={{ display: 'flex', gap: 8, marginBottom: 22 }}>
                   {controlOpts.map(opt => (
                     <button key={String(opt.val)} onClick={() => setInControl(opt.val)} style={{
                       flex: 1, padding: '10px 6px', borderRadius: 12,
-                      border: inControl === opt.val ? `2px solid ${opt.color}` : '1.5px solid #F0E6D0',
-                      cursor: 'pointer', background: inControl === opt.val ? opt.color + '20' : '#fff',
-                      color: inControl === opt.val ? '#2C2C2C' : '#7A6A5A',
+                      border: inControl === opt.val ? `2px solid ${opt.color}` : '1.5px solid var(--color-card-border)',
+                      cursor: 'pointer', background: inControl === opt.val ? opt.color + '20' : 'var(--color-card)',
+                      color: inControl === opt.val ? 'var(--color-text)' : 'var(--color-text-muted)',
                       fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '0.73rem',
                       lineHeight: 1.3, transition: 'all 0.2s ease',
                     }}>{opt.label}</button>
@@ -81,19 +81,19 @@ export default function WorrySorter() {
           {view === 'result' && (
             <motion.div key="result" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
               <div className="page-header"><h1>A Gentler View</h1></div>
-              <div className="card" style={{ marginBottom: 14, borderLeft: '4px solid #F0E6D0' }}>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: '#7A6A5A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>Your worry</div>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontSize: '0.9rem', fontStyle: 'italic' }}>"{worry}"</p>
+              <div className="card" style={{ marginBottom: 14, borderLeft: '4px solid var(--color-card-border)' }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>Your worry</div>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', fontSize: '0.9rem', fontStyle: 'italic' }}>"{worry}"</p>
                 {inControl !== null && (
-                  <span style={{ display: 'inline-block', marginTop: 10, background: '#FAF3E0', color: '#7A6A5A', border: '1px solid #F0E6D0', fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, padding: '4px 12px', borderRadius: 50 }}>
+                  <span style={{ display: 'inline-block', marginTop: 10, background: 'var(--color-bg)', color: 'var(--color-text-muted)', border: '1px solid var(--color-card-border)', fontFamily: 'Inter, sans-serif', fontSize: '0.72rem', fontWeight: 700, padding: '4px 12px', borderRadius: 50 }}>
                     {inControl === true ? '✅ In your control' : inControl === false ? '🌊 Out of your control' : '🌗 Partly in your control'}
                   </span>
                 )}
               </div>
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-                className="card" style={{ marginBottom: 24, borderLeft: '4px solid #D4770A', background: '#FFF8F0' }}>
+                className="card" style={{ marginBottom: 24, borderLeft: '4px solid #D4770A', background: 'var(--color-card-warm)' }}>
                 <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: '#D4770A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>✨ A gentler perspective</div>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', lineHeight: 1.8, fontSize: '0.93rem' }}>{reframe}</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', lineHeight: 1.8, fontSize: '0.93rem' }}>{reframe}</p>
               </motion.div>
               <div style={{ display: 'flex', gap: 10 }}>
                 <button onClick={saveWorry} className="btn btn-primary" style={{ flex: 1 }}>Save & Done</button>
@@ -113,10 +113,10 @@ export default function WorrySorter() {
                   {worries.map(w => (
                     <div key={w.id} className="card">
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, alignItems: 'flex-start' }}>
-                        <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontSize: '0.88rem', fontWeight: 600, flex: 1 }}>{w.worry}</p>
-                        <span style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.73rem', marginLeft: 12, whiteSpace: 'nowrap' }}>{w.date}</span>
+                        <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', fontSize: '0.88rem', fontWeight: 600, flex: 1 }}>{w.worry}</p>
+                        <span style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.73rem', marginLeft: 12, whiteSpace: 'nowrap' }}>{w.date}</span>
                       </div>
-                      <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.82rem', lineHeight: 1.6, fontStyle: 'italic', borderTop: '1px solid #F0E6D0', paddingTop: 10 }}>{w.reframe}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.82rem', lineHeight: 1.6, fontStyle: 'italic', borderTop: '1px solid var(--color-card-border)', paddingTop: 10 }}>{w.reframe}</p>
                     </div>
                   ))}
                 </div>

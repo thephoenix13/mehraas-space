@@ -13,7 +13,7 @@ const STEPS = [
 
 export default function Grounding54321() {
   const navigate = useNavigate()
-  const [view, setView] = useState('intro') // intro | step | done
+  const [view, setView] = useState('intro')
   const [stepIdx, setStepIdx] = useState(0)
   const [answers, setAnswers] = useState(['', '', '', '', ''])
   const [affirmation, setAffirmation] = useState('')
@@ -52,7 +52,7 @@ export default function Grounding54321() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px' }}>
         <button onClick={() => navigate('/')} className="back-btn">← Home</button>
       </div>
@@ -69,7 +69,7 @@ export default function Grounding54321() {
               </div>
 
               <div className="card" style={{ textAlign: 'left', marginBottom: 24 }}>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', lineHeight: 1.8, marginBottom: 16 }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', lineHeight: 1.8, marginBottom: 16 }}>
                   This gentle technique uses your five senses to anchor you back into the present moment. It works by interrupting the anxiety spiral and reminding your nervous system that you are safe, right here, right now.
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -80,8 +80,8 @@ export default function Grounding54321() {
                         border: `1.5px solid ${s.color}40`,
                         display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', flexShrink: 0
                       }}>{s.emoji}</div>
-                      <span style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.9rem' }}>
-                        <strong style={{ color: '#2C2C2C' }}>{s.count}</strong> things you can <strong style={{ color: '#2C2C2C' }}>{s.sense.toLowerCase()}</strong>
+                      <span style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.9rem' }}>
+                        <strong style={{ color: 'var(--color-text)' }}>{s.count}</strong> things you can <strong style={{ color: 'var(--color-text)' }}>{s.sense.toLowerCase()}</strong>
                       </span>
                     </div>
                   ))}
@@ -101,7 +101,7 @@ export default function Grounding54321() {
                 {STEPS.map((s, i) => (
                   <div key={i} style={{
                     flex: 1, height: 6, borderRadius: 50,
-                    background: i <= stepIdx ? s.color : '#F0E6D0',
+                    background: i <= stepIdx ? s.color : 'var(--color-card-border)',
                     transition: 'all 0.4s ease'
                   }} />
                 ))}
@@ -123,10 +123,10 @@ export default function Grounding54321() {
                 <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '2.5rem', fontWeight: 800, color: step.color, marginBottom: 4 }}>
                   {step.count}
                 </div>
-                <h2 style={{ fontFamily: "'Playfair Display', serif", color: '#2C2C2C', fontWeight: 700, fontSize: '1.3rem', marginBottom: 8 }}>
+                <h2 style={{ fontFamily: "'Playfair Display', serif", color: 'var(--color-text)', fontWeight: 700, fontSize: '1.3rem', marginBottom: 8 }}>
                   {step.prompt}
                 </h2>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.85rem' }}>e.g. {step.examples}</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>e.g. {step.examples}</p>
               </div>
 
               <div className="card" style={{ marginBottom: 24 }}>
@@ -168,7 +168,7 @@ export default function Grounding54321() {
                 style={{ fontSize: '4rem', marginBottom: 20 }}
               >🌿</motion.div>
 
-              <h2 style={{ fontFamily: "'Playfair Display', serif", color: '#2C2C2C', fontWeight: 700, fontSize: '1.6rem', marginBottom: 12 }}>
+              <h2 style={{ fontFamily: "'Playfair Display', serif", color: 'var(--color-text)', fontWeight: 700, fontSize: '1.6rem', marginBottom: 12 }}>
                 You are grounded
               </h2>
 
@@ -178,8 +178,8 @@ export default function Grounding54321() {
                   <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 10, alignItems: 'flex-start' }}>
                     <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{s.emoji}</span>
                     <div>
-                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: '#7A6A5A', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.count} {s.sense}</span>
-                      <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontSize: '0.88rem', marginTop: 2 }}>{answers[i]}</p>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.count} {s.sense}</span>
+                      <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', fontSize: '0.88rem', marginTop: 2 }}>{answers[i]}</p>
                     </div>
                   </div>
                 ))}
@@ -194,9 +194,9 @@ export default function Grounding54321() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="card"
-                  style={{ marginBottom: 24, background: '#FFF8F0', borderLeft: '4px solid #D4770A', textAlign: 'center' }}
+                  style={{ marginBottom: 24, background: 'var(--color-card-warm)', borderLeft: '4px solid #D4770A', textAlign: 'center' }}
                 >
-                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', lineHeight: 1.75, fontStyle: 'italic' }}>{affirmation}</p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', lineHeight: 1.75, fontStyle: 'italic' }}>{affirmation}</p>
                 </motion.div>
               )}
 

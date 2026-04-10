@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { callClaude } from '../api'
 
 const todayKey = () => new Date().toISOString().split('T')[0]
-const CARD_BGTONES = ['#FFF8F0', '#FAF3E0', '#F5EDD6']
+const CARD_BGTONES = ['var(--color-card-warm)', 'var(--color-bg)', 'var(--color-bg-section)']
 
 export default function Affirmations() {
   const navigate = useNavigate()
@@ -62,15 +62,15 @@ export default function Affirmations() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button onClick={() => navigate('/')} className="back-btn">← Home</button>
         <div style={{ display: 'flex', gap: 8 }}>
           {['daily', 'favorites'].map(v => (
             <button key={v} onClick={() => setView(v)} style={{
-              padding: '6px 14px', borderRadius: 50, border: '1px solid #F0E6D0', cursor: 'pointer',
+              padding: '6px 14px', borderRadius: 50, border: '1px solid var(--color-card-border)', cursor: 'pointer',
               fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '0.8rem',
-              background: view === v ? '#C0392B' : '#fff', color: view === v ? '#fff' : '#7A6A5A',
+              background: view === v ? '#C0392B' : 'var(--color-card)', color: view === v ? '#fff' : 'var(--color-text-muted)',
               transition: 'all 0.2s ease',
             }}>{v === 'daily' ? '✨ Today' : `💛 Saved (${favorites.length})`}</button>
           ))}
@@ -95,16 +95,16 @@ export default function Affirmations() {
                         transition={{ type: 'spring', damping: 26, stiffness: 200 }}
                         style={{
                           background: CARD_BGTONES[current % CARD_BGTONES.length],
-                          border: '1px solid #F0E6D0', borderTop: '3px solid #D4770A',
+                          border: '1px solid var(--color-card-border)', borderTop: '3px solid #D4770A',
                           borderRadius: 20, padding: '48px 32px', textAlign: 'center',
-                          boxShadow: '0 4px 20px rgba(180,120,60,0.08)',
+                          boxShadow: 'var(--shadow-card)',
                           minHeight: 260, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                         }}>
                         <div style={{ fontSize: '2rem', marginBottom: 20 }}>✨</div>
                         <p style={{
                           fontFamily: "'Playfair Display', serif",
                           fontSize: 'clamp(1.05rem, 3vw, 1.25rem)',
-                          fontWeight: 600, color: '#2C2C2C', lineHeight: 1.7, maxWidth: 400,
+                          fontWeight: 600, color: 'var(--color-text)', lineHeight: 1.7, maxWidth: 400,
                         }}>{affirmations[current]}</p>
                         <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
                           onClick={() => toggleFavorite(affirmations[current])}
@@ -116,13 +116,13 @@ export default function Affirmations() {
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, marginBottom: 24 }}>
-                    <button onClick={prev} style={{ background: '#fff', border: '1px solid #F0E6D0', borderRadius: '50%', width: 44, height: 44, cursor: 'pointer', fontSize: '1.1rem', boxShadow: '0 2px 8px rgba(180,120,60,0.06)' }}>←</button>
+                    <button onClick={prev} style={{ background: 'var(--color-card)', border: '1px solid var(--color-card-border)', borderRadius: '50%', width: 44, height: 44, cursor: 'pointer', fontSize: '1.1rem', boxShadow: 'var(--shadow-card)', color: 'var(--color-text)' }}>←</button>
                     <div style={{ display: 'flex', gap: 6 }}>
                       {affirmations.map((_, i) => (
-                        <div key={i} onClick={() => setCurrent(i)} style={{ width: 8, height: 8, borderRadius: '50%', cursor: 'pointer', background: i === current ? '#D4770A' : '#F0E6D0', transition: 'all 0.2s ease' }} />
+                        <div key={i} onClick={() => setCurrent(i)} style={{ width: 8, height: 8, borderRadius: '50%', cursor: 'pointer', background: i === current ? '#D4770A' : 'var(--color-card-border)', transition: 'all 0.2s ease' }} />
                       ))}
                     </div>
-                    <button onClick={next} style={{ background: '#fff', border: '1px solid #F0E6D0', borderRadius: '50%', width: 44, height: 44, cursor: 'pointer', fontSize: '1.1rem', boxShadow: '0 2px 8px rgba(180,120,60,0.06)' }}>→</button>
+                    <button onClick={next} style={{ background: 'var(--color-card)', border: '1px solid var(--color-card-border)', borderRadius: '50%', width: 44, height: 44, cursor: 'pointer', fontSize: '1.1rem', boxShadow: 'var(--shadow-card)', color: 'var(--color-text)' }}>→</button>
                   </div>
 
                   <button onClick={loadAffirmations} className="btn btn-ghost" style={{ width: '100%' }}>🔄 Get New Affirmations</button>
@@ -143,9 +143,9 @@ export default function Affirmations() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {favorites.map((f, i) => (
                     <motion.div key={f} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}
-                      style={{ background: '#fff', borderRadius: 16, padding: '20px 22px', boxShadow: '0 2px 12px rgba(180,120,60,0.07)', borderLeft: '4px solid #E8A020', border: '1px solid #F0E6D0', borderLeftColor: '#E8A020' }}>
-                      <p style={{ fontFamily: "'Playfair Display', serif", color: '#2C2C2C', fontWeight: 600, lineHeight: 1.7 }}>{f}</p>
-                      <button onClick={() => toggleFavorite(f)} style={{ marginTop: 10, background: 'none', border: 'none', color: '#7A6A5A', cursor: 'pointer', fontSize: '0.8rem', textDecoration: 'underline', fontFamily: 'Inter, sans-serif' }}>Remove</button>
+                      style={{ background: 'var(--color-card)', borderRadius: 16, padding: '20px 22px', boxShadow: 'var(--shadow-card)', borderLeft: '4px solid #E8A020', border: '1px solid var(--color-card-border)', borderLeftColor: '#E8A020' }}>
+                      <p style={{ fontFamily: "'Playfair Display', serif", color: 'var(--color-text)', fontWeight: 600, lineHeight: 1.7 }}>{f}</p>
+                      <button onClick={() => toggleFavorite(f)} style={{ marginTop: 10, background: 'none', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer', fontSize: '0.8rem', textDecoration: 'underline', fontFamily: 'Inter, sans-serif' }}>Remove</button>
                     </motion.div>
                   ))}
                 </div>

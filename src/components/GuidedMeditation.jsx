@@ -16,7 +16,7 @@ export default function GuidedMeditation() {
   const [mood, setMood] = useState(null)
   const [script, setScript] = useState([])
   const [loading, setLoading] = useState(false)
-  const [view, setView] = useState('pick') // pick | loading | session | done | favorites
+  const [view, setView] = useState('pick')
   const [currentLine, setCurrentLine] = useState(0)
   const [elapsed, setElapsed] = useState(0)
   const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem('meditation_favorites') || '[]'))
@@ -105,7 +105,7 @@ Each paragraph should be 2-3 sentences. Number each one 1. through 8. One per li
   const selectedMoodData = MOODS.find(m => m.id === mood)
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)', position: 'relative', overflow: 'hidden' }}>
       {/* Soft ambient orbs */}
       {[
         { size: 200, left: -60, top: -40, color: '#D4770A', dur: 8 },
@@ -149,9 +149,9 @@ Each paragraph should be 2-3 sentences. Number each one 1. through 8. One per li
                       whileTap={{ scale: 0.98 }}
                       onClick={() => generateMeditation(m.id)}
                       style={{
-                        background: 'white', border: '1px solid #F0E6D0', borderRadius: 20,
+                        background: 'var(--color-card)', border: '1px solid var(--color-card-border)', borderRadius: 20,
                         padding: '18px 22px', cursor: 'pointer', textAlign: 'left',
-                        boxShadow: '0 2px 12px rgba(180,120,60,0.07)',
+                        boxShadow: 'var(--shadow-card)',
                         display: 'flex', alignItems: 'center', gap: 16,
                         transition: 'all 0.2s ease',
                       }}
@@ -163,8 +163,8 @@ Each paragraph should be 2-3 sentences. Number each one 1. through 8. One per li
                         justifyContent: 'center', fontSize: '1.6rem', flexShrink: 0
                       }}>{m.emoji}</div>
                       <div>
-                        <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 3 }}>I feel {m.label}</div>
-                        <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.8rem' }}>3-5 min meditation for this feeling</div>
+                        <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 3 }}>I feel {m.label}</div>
+                        <div style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.8rem' }}>3-5 min meditation for this feeling</div>
                       </div>
                     </motion.button>
                   ))}
@@ -180,7 +180,7 @@ Each paragraph should be 2-3 sentences. Number each one 1. through 8. One per li
                   transition={{ duration: 2.5, repeat: Infinity }}
                   style={{ fontSize: '4rem', marginBottom: 24 }}
                 >🧘</motion.div>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', marginBottom: 16 }}>Preparing your meditation...</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', marginBottom: 16 }}>Preparing your meditation...</p>
                 <div className="ai-loading" style={{ justifyContent: 'center' }}>
                   <div className="dots-loading"><span/><span/><span/></div>
                 </div>
@@ -190,14 +190,14 @@ Each paragraph should be 2-3 sentences. Number each one 1. through 8. One per li
             {view === 'session' && script.length > 0 && (
               <motion.div key="session" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                 style={{ textAlign: 'center' }}>
-                <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.8rem', marginBottom: 8 }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.8rem', marginBottom: 8 }}>
                   {selectedMoodData?.emoji} Meditation for {selectedMoodData?.label} · {fmt(elapsed)}
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: 4, marginBottom: 36 }}>
                   {script.map((_, i) => (
                     <div key={i} style={{
                       height: 4, width: i <= currentLine ? 24 : 8, borderRadius: 50,
-                      background: i <= currentLine ? (selectedMoodData?.color || '#D4770A') : '#F0E6D0',
+                      background: i <= currentLine ? (selectedMoodData?.color || '#D4770A') : 'var(--color-card-border)',
                       transition: 'all 0.4s ease'
                     }} />
                   ))}
@@ -211,15 +211,15 @@ Each paragraph should be 2-3 sentences. Number each one 1. through 8. One per li
                     exit={{ opacity: 0, y: -16 }}
                     transition={{ duration: 0.5 }}
                     style={{
-                      background: '#fff',
-                      border: '1px solid #F0E6D0',
+                      background: 'var(--color-card)',
+                      border: '1px solid var(--color-card-border)',
                       borderTop: `3px solid ${selectedMoodData?.color || '#D4770A'}`,
                       borderRadius: 24, padding: '36px 28px', marginBottom: 36,
-                      boxShadow: '0 4px 20px rgba(180,120,60,0.08)', minHeight: 160,
+                      boxShadow: 'var(--shadow-card)', minHeight: 160,
                       display: 'flex', alignItems: 'center', justifyContent: 'center'
                     }}
                   >
-                    <p style={{ fontFamily: "'Playfair Display', serif", color: '#2C2C2C', fontSize: '1.1rem', lineHeight: 1.9, fontStyle: 'italic' }}>
+                    <p style={{ fontFamily: "'Playfair Display', serif", color: 'var(--color-text)', fontSize: '1.1rem', lineHeight: 1.9, fontStyle: 'italic' }}>
                       {script[currentLine]}
                     </p>
                   </motion.div>
@@ -228,16 +228,16 @@ Each paragraph should be 2-3 sentences. Number each one 1. through 8. One per li
                 <div style={{ display: 'flex', gap: 12, justifyContent: 'center', alignItems: 'center' }}>
                   {currentLine > 0 && (
                     <button onClick={prev} style={{
-                      background: '#fff', border: '1px solid #F0E6D0', borderRadius: '50%',
+                      background: 'var(--color-card)', border: '1px solid var(--color-card-border)', borderRadius: '50%',
                       width: 44, height: 44, cursor: 'pointer', fontSize: '1rem',
-                      boxShadow: '0 2px 8px rgba(180,120,60,0.06)'
+                      boxShadow: 'var(--shadow-card)', color: 'var(--color-text)'
                     }}>←</button>
                   )}
                   <button onClick={next} className="btn btn-primary" style={{ padding: '12px 32px' }}>
                     {currentLine === script.length - 1 ? 'Complete ✓' : 'Continue →'}
                   </button>
                 </div>
-                <div style={{ marginTop: 16, fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: '#7A6A5A' }}>
+                <div style={{ marginTop: 16, fontFamily: 'Inter, sans-serif', fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>
                   {currentLine + 1} of {script.length}
                 </div>
               </motion.div>
@@ -251,10 +251,10 @@ Each paragraph should be 2-3 sentences. Number each one 1. through 8. One per li
                   transition={{ duration: 3, repeat: Infinity }}
                   style={{ fontSize: '4rem', marginBottom: 20 }}
                 >🪷</motion.div>
-                <h2 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, color: '#2C2C2C', fontSize: '1.5rem', marginBottom: 12 }}>
+                <h2 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, color: 'var(--color-text)', fontSize: '1.5rem', marginBottom: 12 }}>
                   Well done
                 </h2>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', lineHeight: 1.7, marginBottom: 28 }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', lineHeight: 1.7, marginBottom: 28 }}>
                   You gave yourself {fmt(elapsed)} of peace today. That is a real gift.
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -278,7 +278,7 @@ Each paragraph should be 2-3 sentences. Number each one 1. through 8. One per li
                 </div>
                 {favorites.length === 0 ? (
                   <div className="card" style={{ textAlign: 'center', padding: 40 }}>
-                    <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A' }}>Complete a meditation and save it to find it here.</p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)' }}>Complete a meditation and save it to find it here.</p>
                   </div>
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -289,11 +289,11 @@ Each paragraph should be 2-3 sentences. Number each one 1. through 8. One per li
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                               <span style={{ fontSize: '1.4rem' }}>{md?.emoji}</span>
-                              <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C' }}>For {f.moodLabel}</span>
+                              <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)' }}>For {f.moodLabel}</span>
                             </div>
-                            <span style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.75rem' }}>{f.date}</span>
+                            <span style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.75rem' }}>{f.date}</span>
                           </div>
-                          <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.85rem', fontStyle: 'italic', lineHeight: 1.6 }}>
+                          <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.85rem', fontStyle: 'italic', lineHeight: 1.6 }}>
                             "{f.script[0]?.slice(0, 100)}..."
                           </p>
                           <button

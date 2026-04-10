@@ -44,22 +44,22 @@ export default function Journal() {
 
   const menuCard = (emoji, title, desc, onClick) => (
     <button onClick={onClick} style={{
-      background: '#fff', border: '1px solid #F0E6D0', borderRadius: 16,
+      background: 'var(--color-card)', border: '1px solid var(--color-card-border)', borderRadius: 16,
       padding: '20px 24px', cursor: 'pointer', textAlign: 'left',
-      boxShadow: '0 2px 12px rgba(180,120,60,0.07)', width: '100%',
+      boxShadow: 'var(--shadow-card)', width: '100%',
       transition: 'all 0.25s ease',
     }}
-      onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(180,120,60,0.12)' }}
-      onMouseOut={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 2px 12px rgba(180,120,60,0.07)' }}
+      onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-hover)' }}
+      onMouseOut={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'var(--shadow-card)' }}
     >
       <div style={{ fontSize: '1.5rem', marginBottom: 8 }}>{emoji}</div>
       <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#C0392B', marginBottom: 4 }}>{title}</div>
-      <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.82rem' }}>{desc}</div>
+      <div style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.82rem' }}>{desc}</div>
     </button>
   )
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px' }}>
         {mode !== 'home' ? (
           <button onClick={() => setMode('home')} className="back-btn">← Back</button>
@@ -104,12 +104,12 @@ export default function Journal() {
           {mode === 'guided' && (
             <motion.div key="guided" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
               <div className="page-header"><h1>🌿 Guided Journal</h1></div>
-              <div className="card" style={{ marginBottom: 16, background: '#F5EDD6', border: '1px solid #F0E6D0' }}>
+              <div className="card" style={{ marginBottom: 16, background: 'var(--color-bg-section)', border: '1px solid var(--color-card-border)' }}>
                 {promptLoading ? (
                   <div className="ai-loading"><div className="dots-loading"><span/><span/><span/></div><span>Finding a gentle prompt…</span></div>
                 ) : (
                   <>
-                    <p style={{ fontStyle: 'italic', color: '#2C2C2C', lineHeight: 1.7, marginBottom: 10 }}>{prompt}</p>
+                    <p style={{ fontStyle: 'italic', color: 'var(--color-text)', lineHeight: 1.7, marginBottom: 10 }}>{prompt}</p>
                     <button onClick={loadPrompt} style={{
                       background: 'none', border: 'none', color: '#D4770A', fontSize: '0.8rem',
                       cursor: 'pointer', textDecoration: 'underline', padding: 0, fontFamily: 'Inter, sans-serif'
@@ -143,17 +143,17 @@ export default function Journal() {
                   {entries.map(e => (
                     <div key={e.id} className="card">
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10, alignItems: 'center' }}>
-                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#7A6A5A', fontWeight: 600 }}>{e.displayDate}</span>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: 'var(--color-text-muted)', fontWeight: 600 }}>{e.displayDate}</span>
                         <span style={{
-                          background: e.type === 'guided' ? '#FAF3E0' : '#FFF8F0',
+                          background: e.type === 'guided' ? 'var(--color-bg)' : 'var(--color-card-warm)',
                           color: e.type === 'guided' ? '#D4770A' : '#C0392B',
-                          border: `1px solid ${e.type === 'guided' ? '#F0E6D0' : '#F0D0C8'}`,
+                          border: `1px solid var(--color-card-border)`,
                           fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700,
                           padding: '3px 10px', borderRadius: 50,
                         }}>{e.type === 'guided' ? '🌿 Guided' : '✏️ Free'}</span>
                       </div>
-                      {e.prompt && <p style={{ fontStyle: 'italic', color: '#7A6A5A', fontSize: '0.82rem', marginBottom: 8 }}>"{e.prompt}"</p>}
-                      <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontSize: '0.88rem', lineHeight: 1.7 }}>
+                      {e.prompt && <p style={{ fontStyle: 'italic', color: 'var(--color-text-muted)', fontSize: '0.82rem', marginBottom: 8 }}>"{e.prompt}"</p>}
+                      <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', fontSize: '0.88rem', lineHeight: 1.7 }}>
                         {e.content.length > 200 ? e.content.slice(0, 200) + '…' : e.content}
                       </p>
                     </div>

@@ -4,13 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { callClaude } from '../api'
 
 const EMOJIS = ['🌸', '☀️', '🌈', '🎉', '💛', '🌻', '⭐', '🍀', '🌊', '🎵', '🦋', '🌙', '🍎', '🌺', '✨']
-const BUBBLE_COLORS = ['#FFF8F0', '#FAF3E0', '#FFF0EE', '#FFFBF0', '#F5EDD6', '#FFF8F0', '#FFF0EE', '#FAF3E0']
 const BUBBLE_BORDERS = ['#D4770A', '#E8A020', '#C0392B', '#D4770A', '#A93226', '#D4770A', '#C0392B', '#E8A020']
 
 export default function MemoryJar() {
   const navigate = useNavigate()
   const [memories, setMemories] = useState(() => JSON.parse(localStorage.getItem('memory_jar') || '[]'))
-  const [view, setView] = useState('jar') // jar | add | shake | search
+  const [view, setView] = useState('jar')
   const [title, setTitle] = useState('')
   const [desc, setDesc] = useState('')
   const [date, setDate] = useState('')
@@ -70,7 +69,7 @@ export default function MemoryJar() {
   const formatDate = d => d ? new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button onClick={() => view !== 'jar' ? setView('jar') : navigate('/')} className="back-btn">
           ← {view !== 'jar' ? 'Back' : 'Home'}
@@ -99,8 +98,8 @@ export default function MemoryJar() {
                   <svg width="220" height="280" viewBox="0 0 220 280">
                     <defs>
                       <linearGradient id="jarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="rgba(255,255,255,0.92)" />
-                        <stop offset="100%" stopColor="rgba(255,240,220,0.75)" />
+                        <stop offset="0%" style={{ stopColor: 'var(--color-jar-body-start)' }} />
+                        <stop offset="100%" style={{ stopColor: 'var(--color-jar-body-end)' }} />
                       </linearGradient>
                       <filter id="glow">
                         <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -113,7 +112,7 @@ export default function MemoryJar() {
                     {/* Jar body */}
                     <path d="M40 48 Q30 48 30 65 L30 240 Q30 260 55 260 L165 260 Q190 260 190 240 L190 65 Q190 48 180 48 Z" fill="url(#jarGrad)" stroke="rgba(212,119,10,0.3)" strokeWidth="2"/>
                     {/* Glass shine */}
-                    <path d="M50 60 L50 240" stroke="rgba(255,255,255,0.6)" strokeWidth="8" strokeLinecap="round"/>
+                    <path d="M50 60 L50 240" stroke="rgba(255,255,255,0.4)" strokeWidth="8" strokeLinecap="round"/>
                     {/* Memory bubbles */}
                     {bubbles.map((b, i) => (
                       <motion.g key={i}
@@ -166,7 +165,7 @@ export default function MemoryJar() {
               {/* Recent memories */}
               {memories.length > 0 && (
                 <>
-                  <h3 style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
+                  <h3 style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
                     Recent memories
                   </h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -178,20 +177,20 @@ export default function MemoryJar() {
                         transition={{ delay: i * 0.08 }}
                         onClick={() => shake(m)}
                         style={{
-                          background: '#fff',
-                          border: '1px solid #F0E6D0',
+                          background: 'var(--color-card)',
+                          border: '1px solid var(--color-card-border)',
                           borderLeft: `4px solid ${m.color || '#D4770A'}`,
                           borderRadius: 16,
                           padding: '14px 18px', cursor: 'pointer',
                           display: 'flex', alignItems: 'center', gap: 12,
-                          boxShadow: '0 2px 10px rgba(180,120,60,0.06)',
+                          boxShadow: 'var(--shadow-card)',
                           transition: 'all 0.2s ease'
                         }}
                       >
                         <span style={{ fontSize: '1.5rem' }}>{m.emoji}</span>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', fontSize: '0.88rem', marginBottom: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.title}</div>
-                          {m.date && <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.72rem' }}>{formatDate(m.date)}</div>}
+                          <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', fontSize: '0.88rem', marginBottom: 2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.title}</div>
+                          {m.date && <div style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.72rem' }}>{formatDate(m.date)}</div>}
                         </div>
                         <span style={{ fontFamily: 'Inter, sans-serif', color: '#D4770A', fontSize: '0.8rem' }}>→</span>
                       </motion.div>
@@ -218,12 +217,12 @@ export default function MemoryJar() {
 
               <div className="card">
                 <div style={{ marginBottom: 16 }}>
-                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 8, fontSize: '0.9rem' }}>Choose an emoji</label>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 8, fontSize: '0.9rem' }}>Choose an emoji</label>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                     {EMOJIS.map(e => (
                       <button key={e} onClick={() => setEmoji(e)} style={{
                         width: 40, height: 40, borderRadius: '50%', border: 'none', cursor: 'pointer',
-                        fontSize: '1.3rem', background: emoji === e ? '#FFF8F0' : '#F5EDD6',
+                        fontSize: '1.3rem', background: emoji === e ? 'var(--color-card-warm)' : 'var(--color-bg-section)',
                         boxShadow: emoji === e ? '0 0 0 3px #D4770A' : 'none',
                         transition: 'all 0.15s ease'
                       }}>{e}</button>
@@ -232,15 +231,15 @@ export default function MemoryJar() {
                 </div>
 
                 <div style={{ marginBottom: 14 }}>
-                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 8, fontSize: '0.9rem' }}>Memory title *</label>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 8, fontSize: '0.9rem' }}>Memory title *</label>
                   <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. Laughing with Mama on the balcony" autoFocus />
                 </div>
                 <div style={{ marginBottom: 14 }}>
-                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 8, fontSize: '0.9rem' }}>What made it special? (optional)</label>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 8, fontSize: '0.9rem' }}>What made it special? (optional)</label>
                   <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Share the details that make this moment sparkle..." rows={3} />
                 </div>
                 <div style={{ marginBottom: 24 }}>
-                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 8, fontSize: '0.9rem' }}>When was this? (optional)</label>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 8, fontSize: '0.9rem' }}>When was this? (optional)</label>
                   <input type="date" value={date} onChange={e => setDate(e.target.value)} />
                 </div>
 
@@ -262,17 +261,17 @@ export default function MemoryJar() {
                 animate={{ y: [0, -8, 0], rotate: [-1, 1, -1] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                 style={{
-                  background: '#FFF8F0',
-                  border: '1px solid #F0E6D0',
+                  background: 'var(--color-card-warm)',
+                  border: '1px solid var(--color-card-border)',
                   borderTop: `4px solid ${shaken.color || '#D4770A'}`,
                   borderRadius: 28, padding: '40px 32px', marginBottom: 24,
-                  boxShadow: '0 16px 48px rgba(180,120,60,0.12)'
+                  boxShadow: 'var(--shadow-hover)'
                 }}
               >
                 <div style={{ fontSize: '3.5rem', marginBottom: 16 }}>{shaken.emoji}</div>
-                <h2 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, color: '#2C2C2C', fontSize: '1.3rem', marginBottom: 10 }}>{shaken.title}</h2>
-                {shaken.desc && <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.92rem', lineHeight: 1.7, marginBottom: 14 }}>{shaken.desc}</p>}
-                {shaken.date && <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.78rem' }}>{formatDate(shaken.date)}</p>}
+                <h2 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, color: 'var(--color-text)', fontSize: '1.3rem', marginBottom: 10 }}>{shaken.title}</h2>
+                {shaken.desc && <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.92rem', lineHeight: 1.7, marginBottom: 14 }}>{shaken.desc}</p>}
+                {shaken.date && <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.78rem' }}>{formatDate(shaken.date)}</p>}
               </motion.div>
 
               {reflLoading ? (
@@ -287,7 +286,7 @@ export default function MemoryJar() {
                   className="card"
                   style={{ marginBottom: 20, borderLeft: '4px solid #D4770A', textAlign: 'left' }}
                 >
-                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontStyle: 'italic', lineHeight: 1.75 }}>{reflection}</p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', fontStyle: 'italic', lineHeight: 1.75 }}>{reflection}</p>
                 </motion.div>
               )}
 
@@ -318,25 +317,25 @@ export default function MemoryJar() {
                     transition={{ delay: i * 0.04 }}
                     onClick={() => shake(m)}
                     style={{
-                      background: '#fff', border: '1px solid #F0E6D0',
+                      background: 'var(--color-card)', border: '1px solid var(--color-card-border)',
                       borderLeft: `4px solid ${m.color || '#D4770A'}`,
                       borderRadius: 16,
                       padding: '14px 18px', cursor: 'pointer',
                       display: 'flex', alignItems: 'center', gap: 12,
-                      boxShadow: '0 2px 10px rgba(180,120,60,0.06)',
+                      boxShadow: 'var(--shadow-card)',
                     }}
                   >
                     <span style={{ fontSize: '1.5rem' }}>{m.emoji}</span>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', fontSize: '0.9rem' }}>{m.title}</div>
-                      {m.desc && <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.78rem', marginTop: 2 }}>{m.desc.slice(0, 60)}{m.desc.length > 60 ? '...' : ''}</div>}
-                      {m.date && <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.72rem', marginTop: 2 }}>{formatDate(m.date)}</div>}
+                      <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', fontSize: '0.9rem' }}>{m.title}</div>
+                      {m.desc && <div style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.78rem', marginTop: 2 }}>{m.desc.slice(0, 60)}{m.desc.length > 60 ? '...' : ''}</div>}
+                      {m.date && <div style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.72rem', marginTop: 2 }}>{formatDate(m.date)}</div>}
                     </div>
                   </motion.div>
                 ))}
                 {filtered.length === 0 && (
                   <div className="card" style={{ textAlign: 'center', padding: 32 }}>
-                    <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A' }}>{search ? 'No memories match your search.' : 'No memories yet. Add your first one!'}</p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)' }}>{search ? 'No memories match your search.' : 'No memories yet. Add your first one!'}</p>
                   </div>
                 )}
               </div>

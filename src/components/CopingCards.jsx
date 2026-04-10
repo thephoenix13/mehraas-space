@@ -4,12 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { callClaude } from '../api'
 
 const CARD_COLORS = ['#D4770A', '#C0392B', '#7A9E7A', '#E8A020', '#A93226', '#D4770A', '#C0392B', '#E8A020']
-const CARD_BG = ['#FFF8F0', '#FFF0EE', '#F0F8F0', '#FFFBF0', '#FFF0EE', '#FFF8F0', '#FFF0EE', '#FFFBF0']
 
 const STARTER_CARDS = [
-  { id: 's1', front: 'When I feel anxious...', back: 'I will take 3 slow breaths and remind myself: this feeling will pass.', color: '#D4770A', bg: '#FFF8F0' },
-  { id: 's2', front: 'When I feel overwhelmed...', back: 'I will pick just one small thing to do and let the rest wait.', color: '#C0392B', bg: '#FFF0EE' },
-  { id: 's3', front: 'When I feel alone...', back: "I will reach out to one person — even just a text saying I'm thinking of them.", color: '#7A9E7A', bg: '#F0F8F0' },
+  { id: 's1', front: 'When I feel anxious...', back: 'I will take 3 slow breaths and remind myself: this feeling will pass.', color: '#D4770A' },
+  { id: 's2', front: 'When I feel overwhelmed...', back: 'I will pick just one small thing to do and let the rest wait.', color: '#C0392B' },
+  { id: 's3', front: 'When I feel alone...', back: "I will reach out to one person — even just a text saying I'm thinking of them.", color: '#7A9E7A' },
 ]
 
 export default function CopingCards() {
@@ -18,7 +17,7 @@ export default function CopingCards() {
     const stored = localStorage.getItem('coping_cards')
     return stored ? JSON.parse(stored) : STARTER_CARDS
   })
-  const [view, setView] = useState('deck') // deck | draw | edit | new | suggest
+  const [view, setView] = useState('deck')
   const [drawnCard, setDrawnCard] = useState(null)
   const [flipped, setFlipped] = useState(false)
   const [editCard, setEditCard] = useState(null)
@@ -47,7 +46,6 @@ export default function CopingCards() {
       front: front.trim(),
       back: back.trim(),
       color: CARD_COLORS[idx],
-      bg: CARD_BG[idx],
     }
     save([card, ...cards])
     setFront('')
@@ -87,17 +85,16 @@ export default function CopingCards() {
           front: triggerPart?.replace('TRIGGER:', '').trim() || 'When I feel overwhelmed...',
           back: stratPart?.replace('STRATEGY:', '').trim() || 'I will pause and breathe.',
           color: CARD_COLORS[i % CARD_COLORS.length],
-          bg: CARD_BG[i % CARD_BG.length],
         }
       }).filter(c => c.front && c.back)
       setSuggestions(parsed.length > 0 ? parsed : [
-        { id: 'sug-0', front: 'When I feel anxious about the future...', back: 'I will focus only on this moment and ask: what is the one small thing I can do right now?', color: '#D4770A', bg: '#FFF8F0' },
-        { id: 'sug-1', front: 'When I feel like a burden to others...', back: 'I will remember that my presence adds value, and that reaching out is a gift to those who love me.', color: '#C0392B', bg: '#FFF0EE' },
+        { id: 'sug-0', front: 'When I feel anxious about the future...', back: 'I will focus only on this moment and ask: what is the one small thing I can do right now?', color: '#D4770A' },
+        { id: 'sug-1', front: 'When I feel like a burden to others...', back: 'I will remember that my presence adds value, and that reaching out is a gift to those who love me.', color: '#C0392B' },
       ])
     } catch {
       setSuggestions([
-        { id: 'sug-0', front: 'When I feel anxious about the future...', back: 'I will focus only on this moment and ask: what is the one small thing I can do right now?', color: '#D4770A', bg: '#FFF8F0' },
-        { id: 'sug-1', front: 'When I feel like a burden to others...', back: 'I will remember that reaching out is a gift to those who care about me.', color: '#C0392B', bg: '#FFF0EE' },
+        { id: 'sug-0', front: 'When I feel anxious about the future...', back: 'I will focus only on this moment and ask: what is the one small thing I can do right now?', color: '#D4770A' },
+        { id: 'sug-1', front: 'When I feel like a burden to others...', back: 'I will remember that reaching out is a gift to those who care about me.', color: '#C0392B' },
       ])
     }
     setSuggestLoading(false)
@@ -109,7 +106,7 @@ export default function CopingCards() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between' }}>
         <button onClick={() => view !== 'deck' ? setView('deck') : navigate('/')} className="back-btn">
           ← {view !== 'deck' ? 'Back' : 'Home'}
@@ -144,20 +141,20 @@ export default function CopingCards() {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     style={{
-                      background: card.bg || '#FFF8F0',
+                      background: 'var(--color-card-warm)',
                       borderLeft: `4px solid ${card.color || '#D4770A'}`,
-                      border: '1px solid #F0E6D0',
+                      border: '1px solid var(--color-card-border)',
                       borderLeftColor: card.color || '#D4770A',
                       borderLeftWidth: 4,
                       borderRadius: 16, padding: '16px 18px',
-                      boxShadow: '0 2px 10px rgba(180,120,60,0.07)'
+                      boxShadow: 'var(--shadow-card)'
                     }}
                   >
-                    <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 6, fontSize: '0.9rem' }}>{card.front}</p>
-                    <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.85rem', lineHeight: 1.6 }}>{card.back}</p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 6, fontSize: '0.9rem' }}>{card.front}</p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.85rem', lineHeight: 1.6 }}>{card.back}</p>
                     <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
                       <button onClick={() => startEdit(card)} style={{
-                        background: 'none', border: 'none', color: '#7A6A5A', cursor: 'pointer',
+                        background: 'none', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer',
                         fontSize: '0.78rem', textDecoration: 'underline', fontFamily: 'Inter, sans-serif'
                       }}>Edit</button>
                       <button onClick={() => deleteCard(card.id)} style={{
@@ -171,7 +168,7 @@ export default function CopingCards() {
 
               {cards.length === 0 && (
                 <div className="card" style={{ textAlign: 'center', padding: 40 }}>
-                  <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', marginBottom: 16 }}>No cards yet. Create your first or get AI suggestions!</p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', marginBottom: 16 }}>No cards yet. Create your first or get AI suggestions!</p>
                   <button onClick={getSuggestions} className="btn btn-primary">✨ Get Suggestions</button>
                 </div>
               )}
@@ -199,13 +196,13 @@ export default function CopingCards() {
                   {/* Front */}
                   <div style={{
                     position: 'absolute', inset: 0, backfaceVisibility: 'hidden',
-                    background: drawnCard.bg || '#FFF8F0',
+                    background: 'var(--color-card-warm)',
                     border: `2px solid ${drawnCard.color || '#D4770A'}`,
                     borderRadius: 24,
                     display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24,
-                    boxShadow: '0 12px 40px rgba(180,120,60,0.12)'
+                    boxShadow: 'var(--shadow-hover)'
                   }}>
-                    <p style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, color: '#2C2C2C', fontSize: '1.15rem', lineHeight: 1.5, textAlign: 'center' }}>
+                    <p style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, color: 'var(--color-text)', fontSize: '1.15rem', lineHeight: 1.5, textAlign: 'center' }}>
                       {drawnCard.front}
                     </p>
                   </div>
@@ -213,19 +210,19 @@ export default function CopingCards() {
                   <div style={{
                     position: 'absolute', inset: 0, backfaceVisibility: 'hidden',
                     transform: 'rotateY(180deg)',
-                    background: 'white', borderRadius: 24,
+                    background: 'var(--color-card)', borderRadius: 24,
                     display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 28,
-                    boxShadow: '0 12px 40px rgba(180,120,60,0.12)',
+                    boxShadow: 'var(--shadow-hover)',
                     border: `2px solid ${drawnCard.color || '#D4770A'}`
                   }}>
-                    <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontSize: '1rem', lineHeight: 1.75, textAlign: 'center' }}>
+                    <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', fontSize: '1rem', lineHeight: 1.75, textAlign: 'center' }}>
                       {drawnCard.back}
                     </p>
                   </div>
                 </motion.div>
               </div>
 
-              <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.8rem', marginBottom: 24 }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.8rem', marginBottom: 24 }}>
                 {flipped ? 'Your coping strategy ✨' : 'Tap to reveal your strategy'}
               </p>
 
@@ -243,7 +240,7 @@ export default function CopingCards() {
               </div>
               <div className="card">
                 <div style={{ marginBottom: 16 }}>
-                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 8, fontSize: '0.9rem' }}>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 8, fontSize: '0.9rem' }}>
                     When I feel... (front of card)
                   </label>
                   <textarea value={front} onChange={e => setFront(e.target.value)}
@@ -251,7 +248,7 @@ export default function CopingCards() {
                     rows={3} autoFocus />
                 </div>
                 <div style={{ marginBottom: 24 }}>
-                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 8, fontSize: '0.9rem' }}>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 8, fontSize: '0.9rem' }}>
                     I will... (back of card)
                   </label>
                   <textarea value={back} onChange={e => setBack(e.target.value)}
@@ -284,13 +281,13 @@ export default function CopingCards() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {suggestions.map(card => (
                     <div key={card.id} style={{
-                      background: card.bg || '#FFF8F0',
-                      border: '1px solid #F0E6D0',
+                      background: 'var(--color-card-warm)',
+                      border: '1px solid var(--color-card-border)',
                       borderLeft: `4px solid ${card.color || '#D4770A'}`,
                       borderRadius: 16, padding: '16px 18px'
                     }}>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 6, fontSize: '0.9rem' }}>{card.front}</p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 12 }}>{card.back}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 6, fontSize: '0.9rem' }}>{card.front}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.85rem', lineHeight: 1.6, marginBottom: 12 }}>{card.back}</p>
                       <button onClick={() => addSuggestion(card)} className="btn btn-primary" style={{ fontSize: '0.82rem', padding: '8px 18px' }}>
                         + Add to my deck
                       </button>
@@ -298,7 +295,7 @@ export default function CopingCards() {
                   ))}
                   {suggestions.length === 0 && (
                     <div className="card" style={{ textAlign: 'center', padding: 32 }}>
-                      <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A' }}>All suggestions added to your deck!</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)' }}>All suggestions added to your deck!</p>
                     </div>
                   )}
                 </div>

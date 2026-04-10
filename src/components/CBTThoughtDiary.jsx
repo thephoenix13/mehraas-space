@@ -42,7 +42,7 @@ export default function CBTThoughtDiary() {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between' }}>
         <button onClick={() => navigate('/')} className="back-btn">← Home</button>
         <button onClick={() => setView(view === 'past' ? 'write' : 'past')} className="back-btn">📋 {entries.length} entries</button>
@@ -54,19 +54,19 @@ export default function CBTThoughtDiary() {
             <motion.div key="write" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <div className="page-header"><h1>🧠 Thought Diary</h1><p>Gently challenge the thoughts that feel too heavy</p></div>
               <div className="card" style={{ marginBottom: 16 }}>
-                <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 10, fontSize: '0.93rem' }}>What thought is troubling you?</label>
+                <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 10, fontSize: '0.93rem' }}>What thought is troubling you?</label>
                 <textarea value={thought} onChange={e => setThought(e.target.value)}
                   placeholder="e.g. I always mess everything up. Nobody really likes me…" rows={5} style={{ marginBottom: 20 }} autoFocus />
 
-                <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', marginBottom: 12, fontSize: '0.93rem' }}>Does this feel like a fact or a feeling?</label>
+                <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', marginBottom: 12, fontSize: '0.93rem' }}>Does this feel like a fact or a feeling?</label>
                 <div style={{ display: 'flex', gap: 8, marginBottom: 24 }}>
                   {factOpts.map(opt => (
                     <button key={String(opt.val)} onClick={() => setIsFact(opt.val)} style={{
                       flex: 1, padding: '10px 6px', borderRadius: 12, cursor: 'pointer', lineHeight: 1.3,
                       fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '0.73rem',
-                      border: isFact === opt.val ? '2px solid #D4770A' : '1.5px solid #F0E6D0',
-                      background: isFact === opt.val ? '#FFF8F0' : '#fff',
-                      color: isFact === opt.val ? '#D4770A' : '#7A6A5A',
+                      border: isFact === opt.val ? '2px solid #D4770A' : '1.5px solid var(--color-card-border)',
+                      background: isFact === opt.val ? 'var(--color-card-warm)' : 'var(--color-card)',
+                      color: isFact === opt.val ? '#D4770A' : 'var(--color-text-muted)',
                       transition: 'all 0.2s ease',
                     }}>{opt.label}</button>
                   ))}
@@ -83,15 +83,15 @@ export default function CBTThoughtDiary() {
           {view === 'result' && (
             <motion.div key="result" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
               <div className="page-header"><h1>A Gentler Lens</h1></div>
-              <div className="card" style={{ marginBottom: 14, borderLeft: '4px solid #F0E6D0' }}>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: '#7A6A5A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>Your thought</div>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontSize: '0.9rem', fontStyle: 'italic' }}>"{thought}"</p>
-                {isFact !== null && <span style={{ display: 'inline-block', marginTop: 10, background: '#FAF3E0', border: '1px solid #F0E6D0', fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.72rem', fontWeight: 700, padding: '4px 12px', borderRadius: 50 }}>{isFact ? '📌 Felt like a fact' : '💭 Felt like a feeling'}</span>}
+              <div className="card" style={{ marginBottom: 14, borderLeft: '4px solid var(--color-card-border)' }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>Your thought</div>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', fontSize: '0.9rem', fontStyle: 'italic' }}>"{thought}"</p>
+                {isFact !== null && <span style={{ display: 'inline-block', marginTop: 10, background: 'var(--color-bg)', border: '1px solid var(--color-card-border)', fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.72rem', fontWeight: 700, padding: '4px 12px', borderRadius: 50 }}>{isFact ? '📌 Felt like a fact' : '💭 Felt like a feeling'}</span>}
               </div>
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-                className="card" style={{ marginBottom: 24, borderLeft: '4px solid #D4770A', background: '#FFF8F0' }}>
+                className="card" style={{ marginBottom: 24, borderLeft: '4px solid #D4770A', background: 'var(--color-card-warm)' }}>
                 <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', fontWeight: 700, color: '#D4770A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>🧠 A compassionate reframe</div>
-                <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', lineHeight: 1.8, fontSize: '0.93rem', whiteSpace: 'pre-wrap' }}>{reframe}</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', lineHeight: 1.8, fontSize: '0.93rem', whiteSpace: 'pre-wrap' }}>{reframe}</p>
               </motion.div>
               <div style={{ display: 'flex', gap: 10 }}>
                 <button onClick={saveEntry} className="btn btn-primary" style={{ flex: 1 }}>Save Entry</button>
@@ -111,11 +111,11 @@ export default function CBTThoughtDiary() {
                   {entries.map(e => (
                     <div key={e.id} className="card">
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', color: '#7A6A5A', fontWeight: 600 }}>{e.date}</span>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', color: 'var(--color-text-muted)', fontWeight: 600 }}>{e.date}</span>
                         {e.isFact !== null && <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.7rem', color: '#D4770A' }}>{e.isFact ? '📌 Fact' : '💭 Feeling'}</span>}
                       </div>
-                      <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontSize: '0.85rem', fontStyle: 'italic', marginBottom: 10 }}>"{e.thought}"</p>
-                      <p style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.82rem', lineHeight: 1.65, borderTop: '1px solid #F0E6D0', paddingTop: 10 }}>{e.reframe.slice(0, 180)}{e.reframe.length > 180 ? '…' : ''}</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', fontSize: '0.85rem', fontStyle: 'italic', marginBottom: 10 }}>"{e.thought}"</p>
+                      <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.82rem', lineHeight: 1.65, borderTop: '1px solid var(--color-card-border)', paddingTop: 10 }}>{e.reframe.slice(0, 180)}{e.reframe.length > 180 ? '…' : ''}</p>
                     </div>
                   ))}
                 </div>

@@ -41,7 +41,7 @@ export default function LettersToMyself() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         {view !== 'list' ? (
           <button onClick={() => setView('list')} className="back-btn">← Back</button>
@@ -75,28 +75,28 @@ export default function LettersToMyself() {
                       <motion.div key={letter.id} whileHover={{ y: -2 }}
                         onClick={() => canOpen ? openLetter(letter) : null}
                         style={{
-                          background: '#fff', borderRadius: 16, padding: '20px 22px',
-                          boxShadow: '0 2px 12px rgba(180,120,60,0.07)',
+                          background: 'var(--color-card)', borderRadius: 16, padding: '20px 22px',
+                          boxShadow: 'var(--shadow-card)',
                           cursor: canOpen ? 'pointer' : 'default',
-                          borderLeft: `4px solid ${canOpen ? '#D4770A' : '#F0E6D0'}`,
-                          border: '1px solid #F0E6D0', borderLeftColor: canOpen ? '#D4770A' : '#F0E6D0',
+                          borderLeft: `4px solid ${canOpen ? '#D4770A' : 'var(--color-card-border)'}`,
+                          border: '1px solid var(--color-card-border)', borderLeftColor: canOpen ? '#D4770A' : 'var(--color-card-border)',
                           transition: 'all 0.25s ease',
                         }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                           <div style={{ flex: 1 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
                               <span style={{ fontSize: '1.2rem' }}>{canOpen ? '💌' : '🔒'}</span>
-                              <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#2C2C2C', fontSize: '0.93rem' }}>{letter.title}</span>
+                              <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: 'var(--color-text)', fontSize: '0.93rem' }}>{letter.title}</span>
                             </div>
-                            <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.76rem' }}>Written {formatDate(letter.writtenDate + 'T12:00:00')}</div>
+                            <div style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.76rem' }}>Written {formatDate(letter.writtenDate + 'T12:00:00')}</div>
                           </div>
                           <div style={{ textAlign: 'right', flexShrink: 0 }}>
                             {canOpen ? (
-                              <span style={{ background: '#FFF8F0', color: '#C0392B', border: '1px solid #F0D0C8', fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', fontWeight: 700, padding: '4px 12px', borderRadius: 50 }}>
+                              <span style={{ background: 'var(--color-card-warm)', color: '#C0392B', border: '1px solid var(--color-card-border)', fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', fontWeight: 700, padding: '4px 12px', borderRadius: 50 }}>
                                 {letter.opened ? '✓ Opened' : 'Open now ✨'}
                               </span>
                             ) : (
-                              <span style={{ background: '#FAF3E0', color: '#D4770A', border: '1px solid #F0E6D0', fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', fontWeight: 700, padding: '4px 12px', borderRadius: 50 }}>
+                              <span style={{ background: 'var(--color-bg)', color: '#D4770A', border: '1px solid var(--color-card-border)', fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', fontWeight: 700, padding: '4px 12px', borderRadius: 50 }}>
                                 {days} day{days !== 1 ? 's' : ''} left
                               </span>
                             )}
@@ -116,15 +116,15 @@ export default function LettersToMyself() {
               <div className="page-header"><h1>✍️ Write a Letter</h1><p>What do you want your future self to know?</p></div>
               <div className="card">
                 <div style={{ marginBottom: 16 }}>
-                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#2C2C2C', marginBottom: 6, fontSize: '0.85rem' }}>Letter title (optional)</label>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'var(--color-text)', marginBottom: 6, fontSize: '0.85rem' }}>Letter title (optional)</label>
                   <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g. For when you're doubting yourself" />
                 </div>
                 <div style={{ marginBottom: 16 }}>
-                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#2C2C2C', marginBottom: 6, fontSize: '0.85rem' }}>Your letter</label>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'var(--color-text)', marginBottom: 6, fontSize: '0.85rem' }}>Your letter</label>
                   <textarea value={content} onChange={e => setContent(e.target.value)} placeholder={"Dear future me,\n\nI want you to know…"} rows={12} style={{ fontSize: '0.95rem', lineHeight: 1.8 }} />
                 </div>
                 <div style={{ marginBottom: 22 }}>
-                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#2C2C2C', marginBottom: 6, fontSize: '0.85rem' }}>🔒 Open this letter on…</label>
+                  <label style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'var(--color-text)', marginBottom: 6, fontSize: '0.85rem' }}>🔒 Open this letter on…</label>
                   <input type="date" value={openDate} onChange={e => setOpenDate(e.target.value)} min={tomorrow()} />
                 </div>
                 <button onClick={saveLetter} disabled={!content.trim() || !openDate} className="btn btn-primary" style={{ width: '100%', fontSize: '1rem', padding: '14px' }}>
@@ -149,14 +149,14 @@ export default function LettersToMyself() {
               ) : (
                 <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ type: 'spring', damping: 22 }}>
                   <div style={{
-                    background: '#fff', borderRadius: 20, padding: '36px 28px',
-                    boxShadow: '0 8px 32px rgba(180,120,60,0.1)', border: '1px solid #F0E6D0',
+                    background: 'var(--color-card)', borderRadius: 20, padding: '36px 28px',
+                    boxShadow: 'var(--shadow-hover)', border: '1px solid var(--color-card-border)',
                     borderTop: '3px solid #D4770A',
-                    backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, #F0E6D0 31px, #F0E6D0 32px)',
+                    backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, var(--color-card-border) 31px, var(--color-card-border) 32px)',
                     lineHeight: '32px',
                   }}>
-                    <p style={{ fontFamily: 'Inter, sans-serif', color: '#2C2C2C', fontSize: '0.97rem', lineHeight: 2, whiteSpace: 'pre-wrap' }}>{selectedLetter.content}</p>
-                    <p style={{ fontFamily: "'Playfair Display', serif", color: '#7A6A5A', marginTop: 20, fontStyle: 'italic', lineHeight: 1.4 }}>— Past you, with love</p>
+                    <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text)', fontSize: '0.97rem', lineHeight: 2, whiteSpace: 'pre-wrap' }}>{selectedLetter.content}</p>
+                    <p style={{ fontFamily: "'Playfair Display', serif", color: 'var(--color-text-muted)', marginTop: 20, fontStyle: 'italic', lineHeight: 1.4 }}>— Past you, with love</p>
                   </div>
                 </motion.div>
               )}

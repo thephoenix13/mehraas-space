@@ -52,9 +52,9 @@ export default function MoodTracker() {
     if (active && payload?.[0]) {
       const d = payload[0].payload
       return (
-        <div style={{ background: '#fff', borderRadius: 10, padding: '8px 14px', boxShadow: '0 4px 16px rgba(180,120,60,0.12)', border: '1px solid #F0E6D0' }}>
+        <div style={{ background: 'var(--color-card)', borderRadius: 10, padding: '8px 14px', boxShadow: 'var(--shadow-card)', border: '1px solid var(--color-card-border)' }}>
           <div style={{ fontSize: '1.2rem' }}>{d.emoji}</div>
-          <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: '#7A6A5A' }}>{d.date}</div>
+          <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', color: 'var(--color-text-muted)' }}>{d.date}</div>
         </div>
       )
     }
@@ -62,16 +62,16 @@ export default function MoodTracker() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: 80, background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', paddingBottom: 80, background: 'var(--color-bg)' }}>
       <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button onClick={() => navigate('/')} className="back-btn">← Home</button>
         <div style={{ display: 'flex', gap: 8 }}>
           {['checkin', 'graph'].map(v => (
             <button key={v} onClick={() => setView(v)} style={{
-              padding: '6px 14px', borderRadius: 50, border: '1px solid #F0E6D0', cursor: 'pointer',
+              padding: '6px 14px', borderRadius: 50, border: '1px solid var(--color-card-border)', cursor: 'pointer',
               fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: '0.8rem',
-              background: view === v ? '#C0392B' : '#fff',
-              color: view === v ? '#fff' : '#7A6A5A',
+              background: view === v ? '#C0392B' : 'var(--color-card)',
+              color: view === v ? '#fff' : 'var(--color-text-muted)',
               transition: 'all 0.2s ease',
             }}>{v === 'checkin' ? 'Check In' : '📊 History'}</button>
           ))}
@@ -87,8 +87,8 @@ export default function MoodTracker() {
               {todayEntry && !saved && (
                 <div className="card" style={{ textAlign: 'center', marginBottom: 20 }}>
                   <div style={{ fontSize: '2rem', marginBottom: 8 }}>{todayEntry.emoji}</div>
-                  <p style={{ fontWeight: 600, color: '#2C2C2C', fontFamily: 'Inter, sans-serif' }}>You checked in today: {todayEntry.label}</p>
-                  {todayEntry.response && <p style={{ color: '#7A6A5A', marginTop: 10, fontStyle: 'italic', fontSize: '0.88rem' }}>"{todayEntry.response}"</p>}
+                  <p style={{ fontWeight: 600, color: 'var(--color-text)', fontFamily: 'Inter, sans-serif' }}>You checked in today: {todayEntry.label}</p>
+                  {todayEntry.response && <p style={{ color: 'var(--color-text-muted)', marginTop: 10, fontStyle: 'italic', fontSize: '0.88rem' }}>"{todayEntry.response}"</p>}
                   <button onClick={() => setSaved(false)} style={{ marginTop: 12, background: 'none', border: 'none', color: '#D4770A', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.8rem', fontFamily: 'Inter, sans-serif' }}>Update today's mood</button>
                 </div>
               )}
@@ -101,14 +101,14 @@ export default function MoodTracker() {
                         onClick={() => setSelected(mood.score)}
                         style={{
                           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-                          background: selected === mood.score ? mood.color : '#fff',
-                          border: selected === mood.score ? `2px solid ${mood.color}` : '2px solid #F0E6D0',
+                          background: selected === mood.score ? mood.color : 'var(--color-card)',
+                          border: selected === mood.score ? `2px solid ${mood.color}` : '2px solid var(--color-card-border)',
                           borderRadius: 14, padding: '12px 10px', cursor: 'pointer',
-                          boxShadow: selected === mood.score ? `0 4px 16px ${mood.color}40` : '0 2px 8px rgba(180,120,60,0.06)',
+                          boxShadow: selected === mood.score ? `0 4px 16px ${mood.color}40` : 'var(--shadow-card)',
                           transition: 'all 0.2s ease', minWidth: 58,
                         }}>
                         <span style={{ fontSize: '1.8rem', lineHeight: 1 }}>{mood.emoji}</span>
-                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.63rem', fontWeight: 600, color: selected === mood.score ? '#fff' : '#7A6A5A' }}>{mood.label}</span>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.63rem', fontWeight: 600, color: selected === mood.score ? '#fff' : 'var(--color-text-muted)' }}>{mood.label}</span>
                       </motion.button>
                     ))}
                   </div>
@@ -135,7 +135,7 @@ export default function MoodTracker() {
                   <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                     className="card" style={{ marginTop: 20, textAlign: 'center', borderLeft: '4px solid #D4770A' }}>
                     <div style={{ fontSize: '2rem', marginBottom: 12 }}>🌸</div>
-                    <p style={{ fontStyle: 'italic', color: '#2C2C2C', lineHeight: 1.7 }}>{aiResponse}</p>
+                    <p style={{ fontStyle: 'italic', color: 'var(--color-text)', lineHeight: 1.7 }}>{aiResponse}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -153,9 +153,9 @@ export default function MoodTracker() {
                 <div className="card" style={{ padding: 24 }}>
                   <ResponsiveContainer width="100%" height={220}>
                     <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#F0E6D0" />
-                      <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#7A6A5A', fontFamily: 'Inter' }} />
-                      <YAxis domain={[1, 5]} ticks={[1,2,3,4,5]} tick={{ fontSize: 11, fill: '#7A6A5A', fontFamily: 'Inter' }} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--color-card-border)" />
+                      <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'var(--color-text-muted)', fontFamily: 'Inter' }} />
+                      <YAxis domain={[1, 5]} ticks={[1,2,3,4,5]} tick={{ fontSize: 11, fill: 'var(--color-text-muted)', fontFamily: 'Inter' }} />
                       <Tooltip content={<CustomTooltip />} />
                       <Line type="monotone" dataKey="score" stroke="#D4770A" strokeWidth={3}
                         dot={{ fill: '#D4770A', r: 6 }} activeDot={{ r: 8, fill: '#C0392B' }} />
@@ -168,10 +168,10 @@ export default function MoodTracker() {
                   <div key={m.date} className="card" style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 20px' }}>
                     <span style={{ fontSize: '1.5rem' }}>{m.emoji}</span>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#2C2C2C', fontSize: '0.88rem' }}>{m.label}</div>
-                      {m.note && <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.78rem' }}>{m.note}</div>}
+                      <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'var(--color-text)', fontSize: '0.88rem' }}>{m.label}</div>
+                      {m.note && <div style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.78rem' }}>{m.note}</div>}
                     </div>
-                    <div style={{ fontFamily: 'Inter, sans-serif', color: '#7A6A5A', fontSize: '0.73rem' }}>{shortDate(m.date)}</div>
+                    <div style={{ fontFamily: 'Inter, sans-serif', color: 'var(--color-text-muted)', fontSize: '0.73rem' }}>{shortDate(m.date)}</div>
                   </div>
                 ))}
               </div>

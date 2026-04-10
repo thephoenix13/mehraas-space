@@ -48,9 +48,9 @@ export default function TalkToMe() {
   const clearChat = () => setMessages([{ role: 'assistant', content: "Hi there 🌸 I'm Soleil, your gentle companion. This is a safe space — you can share anything that's on your heart or mind. How are you doing today?" }])
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#FAF3E0' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--color-bg)' }}>
       {/* Header */}
-      <div style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fff', borderBottom: '1px solid #F0E6D0', position: 'sticky', top: 0, zIndex: 10, boxShadow: '0 1px 8px rgba(180,120,60,0.06)' }}>
+      <div style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--color-card)', borderBottom: '1px solid var(--color-card-border)', position: 'sticky', top: 0, zIndex: 10, boxShadow: 'var(--shadow-card)' }}>
         <button onClick={() => navigate('/')} className="back-btn">← Home</button>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <motion.div animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 2.5, repeat: Infinity }}
@@ -62,7 +62,7 @@ export default function TalkToMe() {
             <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', color: '#7A9E7A', fontWeight: 600 }}>● Always here</div>
           </div>
         </div>
-        <button onClick={clearChat} style={{ background: 'none', border: 'none', color: '#7A6A5A', cursor: 'pointer', fontSize: '0.78rem', textDecoration: 'underline', fontFamily: 'Inter, sans-serif' }}>Clear</button>
+        <button onClick={clearChat} style={{ background: 'none', border: 'none', color: 'var(--color-text-muted)', cursor: 'pointer', fontSize: '0.78rem', textDecoration: 'underline', fontFamily: 'Inter, sans-serif' }}>Clear</button>
       </div>
 
       {/* Messages */}
@@ -76,12 +76,12 @@ export default function TalkToMe() {
               )}
               <div style={{
                 maxWidth: '75%',
-                background: msg.role === 'user' ? '#C0392B' : '#fff',
-                color: msg.role === 'user' ? '#fff' : '#2C2C2C',
+                background: msg.role === 'user' ? '#C0392B' : 'var(--color-card)',
+                color: msg.role === 'user' ? '#fff' : 'var(--color-text)',
                 borderRadius: msg.role === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
                 padding: '12px 18px',
-                border: msg.role === 'user' ? 'none' : '1px solid #F0E6D0',
-                boxShadow: '0 2px 10px rgba(180,120,60,0.08)',
+                border: msg.role === 'user' ? 'none' : '1px solid var(--color-card-border)',
+                boxShadow: 'var(--shadow-card)',
                 fontFamily: 'Inter, sans-serif', fontSize: '0.93rem', lineHeight: 1.65, whiteSpace: 'pre-wrap', wordBreak: 'break-word',
               }}>{msg.content}</div>
             </motion.div>
@@ -89,7 +89,7 @@ export default function TalkToMe() {
           {loading && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} style={{ display: 'flex', alignItems: 'flex-end', gap: 8 }}>
               <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg, #D4770A, #E8A020)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>🌸</div>
-              <div style={{ background: '#fff', border: '1px solid #F0E6D0', borderRadius: '18px 18px 18px 4px', padding: '14px 18px', boxShadow: '0 2px 10px rgba(180,120,60,0.08)' }}>
+              <div style={{ background: 'var(--color-card)', border: '1px solid var(--color-card-border)', borderRadius: '18px 18px 18px 4px', padding: '14px 18px', boxShadow: 'var(--shadow-card)' }}>
                 <div className="dots-loading"><span/><span/><span/></div>
               </div>
             </motion.div>
@@ -99,19 +99,19 @@ export default function TalkToMe() {
       </div>
 
       {/* Input bar */}
-      <div style={{ position: 'fixed', bottom: 60, left: 0, right: 0, padding: '12px 16px', background: 'rgba(250,243,224,0.96)', backdropFilter: 'blur(16px)', borderTop: '1px solid #F0E6D0' }}>
+      <div style={{ position: 'fixed', bottom: 60, left: 0, right: 0, padding: '12px 16px', background: 'var(--color-header-bg)', backdropFilter: 'blur(16px)', borderTop: '1px solid var(--color-card-border)' }}>
         <div style={{ maxWidth: 700, margin: '0 auto', display: 'flex', gap: 10, alignItems: 'flex-end' }}>
           <textarea ref={inputRef} value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKey}
             placeholder="Share what's on your mind…" rows={1}
-            style={{ flex: 1, borderRadius: 18, padding: '12px 16px', resize: 'none', maxHeight: 100, border: '1.5px solid #F0E6D0', background: '#fff', fontFamily: 'Inter, sans-serif', fontSize: '0.93rem', lineHeight: 1.5, overflowY: 'auto', outline: 'none' }}
-            onFocus={e => e.target.style.borderColor = '#D4770A'} onBlur={e => e.target.style.borderColor = '#F0E6D0'}
+            style={{ flex: 1, borderRadius: 18, padding: '12px 16px', resize: 'none', maxHeight: 100, border: '1.5px solid var(--color-card-border)', background: 'var(--color-input-bg)', fontFamily: 'Inter, sans-serif', fontSize: '0.93rem', lineHeight: 1.5, overflowY: 'auto', outline: 'none', color: 'var(--color-text)' }}
+            onFocus={e => e.target.style.borderColor = '#D4770A'} onBlur={e => e.target.style.borderColor = 'var(--color-card-border)'}
             onInput={e => { e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px' }} />
           <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={send} disabled={!input.trim() || loading}
-            style={{ width: 44, height: 44, borderRadius: '50%', border: 'none', cursor: 'pointer', background: input.trim() && !loading ? '#C0392B' : '#F0E6D0', color: '#fff', fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'background 0.2s ease' }}>
+            style={{ width: 44, height: 44, borderRadius: '50%', border: 'none', cursor: 'pointer', background: input.trim() && !loading ? '#C0392B' : 'var(--color-card-border)', color: '#fff', fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'background 0.2s ease' }}>
             {loading ? <motion.span animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} style={{ fontSize: '0.9rem' }}>⟳</motion.span> : '→'}
           </motion.button>
         </div>
-        <div style={{ textAlign: 'center', marginTop: 8, fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', color: '#7A6A5A' }}>
+        <div style={{ textAlign: 'center', marginTop: 8, fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', color: 'var(--color-text-muted)' }}>
           Not a substitute for professional help. If you're in crisis, please contact a crisis line.
         </div>
       </div>
