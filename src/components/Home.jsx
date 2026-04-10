@@ -76,17 +76,17 @@ export default function Home() {
   const [thought, setThought] = useState('')
 
   useEffect(() => {
-    const today = new Date().toDateString()
-    const cachedDate = localStorage.getItem('daily_thought_date')
+    const now = Date.now()
+    const cachedAt = parseInt(localStorage.getItem('thought_cached_at') || '0')
     const cachedIdx = localStorage.getItem('daily_thought_idx')
-    if (cachedDate === today && cachedIdx !== null) {
+    if (cachedIdx !== null && now - cachedAt < 5 * 60 * 1000) {
       setThought(BEAUTIFUL_THOUGHTS[parseInt(cachedIdx)])
       return
     }
     const idx = Math.floor(Math.random() * BEAUTIFUL_THOUGHTS.length)
     setThought(BEAUTIFUL_THOUGHTS[idx])
     localStorage.setItem('daily_thought_idx', String(idx))
-    localStorage.setItem('daily_thought_date', today)
+    localStorage.setItem('thought_cached_at', String(now))
   }, [])
 
   return (
