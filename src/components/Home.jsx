@@ -1,7 +1,39 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { callClaude } from '../api'
+
+const BEAUTIFUL_THOUGHTS = [
+  "Sea otters hold hands while sleeping so they don't drift apart from each other.",
+  "Honey never spoils. Archaeologists have found 3,000-year-old honey in Egyptian tombs that was still perfectly edible.",
+  "Trees in a forest share nutrients through underground fungal networks — they genuinely look out for each other.",
+  "Otters have a favourite pebble they keep in a little pocket of skin under their arm their whole life.",
+  "Baby elephants suck their trunks for comfort, just like human babies suck their thumbs.",
+  "The smell of rain even has a beautiful name — petrichor — from the Greek words for stone and the fluid that flows through the veins of the gods.",
+  "A group of flamingos is called a flamboyance.",
+  "Cows have best friends and become stressed when separated from them.",
+  "Squirrels accidentally plant thousands of trees every year by forgetting where they buried their acorns.",
+  "Dolphins have individual names for each other and call out to specific friends.",
+  "Sunflowers turn to face each other on cloudy days when there is no sun to follow.",
+  "Cleopatra lived closer in time to the Moon landing than to the building of the Great Pyramid.",
+  "A day on Venus is longer than a year on Venus.",
+  "Butterflies taste with their feet.",
+  "There are more possible chess games than atoms in the observable universe — the possibilities are genuinely infinite.",
+  "The northern lights make a faint, whispering sound that people who live near them have reported hearing.",
+  "Wombats produce cube-shaped droppings — the only animal in the world to do so.",
+  "Bananas are technically berries, but strawberries are not.",
+  "A group of cats is called a clowder, and a group of kittens is called a kindle.",
+  "When you look at a star, you're seeing light that left it years, sometimes thousands of years, ago. You are literally looking into the past.",
+  "Penguins propose to their mates with a pebble. If she accepts, they are partners for life.",
+  "The heart of a blue whale beats so slowly you could count the seconds between each beat.",
+  "Clouds aren't white — they reflect all wavelengths of sunlight equally, so they appear white to us.",
+  "Octopuses have three hearts, blue blood, and can taste with their arms.",
+  "In Switzerland, it is illegal to own just one guinea pig — they must have a companion so they are never lonely.",
+  "The word 'kindness' shares its root with 'kin' — being kind was originally about treating others as family.",
+  "Some trees can live for thousands of years. The oldest known living tree has been growing since before the Roman Empire.",
+  "Humpback whales compose new songs every year, and the songs spread across oceans as whales teach each other.",
+  "A small act of kindness releases oxytocin in both the giver and the receiver — and even in people who simply witness it.",
+  "The Milky Way galaxy is so large that light travelling at 300,000 km per second would take 100,000 years to cross it.",
+]
 
 const miniApps = [
   { path: '/breathe', icon: '🌬️', name: 'Breathe', desc: 'Calm your breath' },
@@ -41,30 +73,20 @@ function formatDate() {
 export default function Home() {
   const navigate = useNavigate()
   const greeting = getGreeting()
-  const [quote, setQuote] = useState('')
-  const [quoteLoading, setQuoteLoading] = useState(true)
+  const [thought, setThought] = useState('')
 
   useEffect(() => {
     const today = new Date().toDateString()
-    const cached = localStorage.getItem('daily_quote')
-    const cachedDate = localStorage.getItem('daily_quote_date')
-    if (cached && cachedDate === today) {
-      setQuote(cached)
-      setQuoteLoading(false)
+    const cachedDate = localStorage.getItem('daily_thought_date')
+    const cachedIdx = localStorage.getItem('daily_thought_idx')
+    if (cachedDate === today && cachedIdx !== null) {
+      setThought(BEAUTIFUL_THOUGHTS[parseInt(cachedIdx)])
       return
     }
-    callClaude(
-      'Give me one short, warm, gentle motivational quote (1-2 sentences max) for someone having a hard day. Just the quote, no attribution, no quotation marks.',
-      'You are a gentle, warm companion. Give only a short quote, nothing else.'
-    ).then(text => {
-      setQuote(text.trim())
-      localStorage.setItem('daily_quote', text.trim())
-      localStorage.setItem('daily_quote_date', today)
-      setQuoteLoading(false)
-    }).catch(() => {
-      setQuote('You are doing better than you think. One breath at a time.')
-      setQuoteLoading(false)
-    })
+    const idx = Math.floor(Math.random() * BEAUTIFUL_THOUGHTS.length)
+    setThought(BEAUTIFUL_THOUGHTS[idx])
+    localStorage.setItem('daily_thought_idx', String(idx))
+    localStorage.setItem('daily_thought_date', today)
   }, [])
 
   return (
@@ -117,23 +139,33 @@ export default function Home() {
             fontFamily: 'Inter, sans-serif',
             color: '#7A6A5A',
             fontSize: '0.88rem',
-            marginBottom: 24,
+            marginBottom: 10,
             letterSpacing: '0.02em',
           }}>
             {formatDate()}
           </p>
 
+          <p style={{
+            fontFamily: "'Playfair Display', serif",
+            color: '#D4770A',
+            fontSize: '0.82rem',
+            fontStyle: 'italic',
+            marginBottom: 24,
+            lineHeight: 1.6,
+          }}>
+            Focus on Today. Focus on Now. Let the Future come to you. Good things are coming soon.
+          </p>
+
           {/* Divider */}
           <div style={{ width: 48, height: 2, background: '#E8A020', margin: '0 auto 24px', borderRadius: 2 }} />
 
-          {/* Quote card */}
+          {/* Beautiful thought card */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
             style={{
               background: '#fff',
-              borderLeft: '4px solid #D4770A',
               borderRadius: 12,
               padding: '16px 24px',
               maxWidth: 480,
@@ -142,22 +174,19 @@ export default function Home() {
               boxShadow: '0 2px 16px rgba(180,120,60,0.08)',
               border: '1px solid #F0E6D0',
               borderLeftColor: '#D4770A',
+              borderLeft: '4px solid #D4770A',
             }}
           >
-            {quoteLoading ? (
-              <span style={{ color: '#7A6A5A', fontStyle: 'italic', fontSize: '0.9rem' }}>
-                Finding something kind for you…
-              </span>
-            ) : (
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontStyle: 'italic',
-                color: '#2C2C2C',
-                fontSize: '0.95rem',
-                lineHeight: 1.7,
-                margin: 0,
-              }}>{quote}</p>
-            )}
+            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '0.68rem', fontWeight: 700, color: '#D4770A', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
+              ✨ A little wonder for today
+            </div>
+            <p style={{
+              fontFamily: 'Inter, sans-serif',
+              color: '#2C2C2C',
+              fontSize: '0.92rem',
+              lineHeight: 1.75,
+              margin: 0,
+            }}>{thought}</p>
           </motion.div>
         </div>
       </motion.div>
